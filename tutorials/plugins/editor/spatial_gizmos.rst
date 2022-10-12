@@ -78,6 +78,7 @@ method so that it returns ``true`` when the spatial parameter is of our target t
 
     # ...
 
+
 Then we can override methods like :ref:`redraw()<class_EditorSpatialGizmoPlugin_method_redraw>`
 or all the handle related ones.
 

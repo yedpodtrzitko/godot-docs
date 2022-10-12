@@ -26,4 +26,9 @@ jobs:
       # Use dummy builder to improve performance as we don't need the generated HTML in this workflow.
       - name: Sphinx build
         run: |
-          sphinx-build --color -b dummy -d _build/doctrees . _build/html
+          sphinx-build --color -b dummy -d _build/doctrees . _build/html -w /tmp/sphinx_stderr.txt
+
+      - name: Check undefined labels
+        continue-on-error: true
+        run: |
+          cat /tmp/sphinx_stderr.txt | grep  "WARNING: undefined label:" && exit 1 || exit 0
