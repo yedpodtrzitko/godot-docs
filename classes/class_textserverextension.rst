@@ -14,14 +14,14 @@ TextServerExtension
 
 **Inherited By:** :ref:`TextServerAdvanced<class_TextServerAdvanced>`, :ref:`TextServerDummy<class_TextServerDummy>`, :ref:`TextServerFallback<class_TextServerFallback>`
 
-Base class for TextServer custom implementations (plugins).
+Base class for custom :ref:`TextServer<class_TextServer>` implementations (plugins).
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-External TextServer implementations should inherit from this class.
+External :ref:`TextServer<class_TextServer>` implementations should inherit from this class.
 
 .. rst-class:: classref-reftable-group
 
@@ -109,6 +109,8 @@ Methods
    | :ref:`String<class_String>`                                     | :ref:`_font_get_name<class_TextServerExtension_method__font_get_name>` **(** :ref:`RID<class_RID>` font_rid **)** |virtual| |const|                                                                                                                                                                                                                                       |
    +-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Dictionary<class_Dictionary>`                             | :ref:`_font_get_opentype_feature_overrides<class_TextServerExtension_method__font_get_opentype_feature_overrides>` **(** :ref:`RID<class_RID>` font_rid **)** |virtual| |const|                                                                                                                                                                                           |
+   +-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Dictionary<class_Dictionary>`                             | :ref:`_font_get_ot_name_strings<class_TextServerExtension_method__font_get_ot_name_strings>` **(** :ref:`RID<class_RID>` font_rid **)** |virtual| |const|                                                                                                                                                                                                                 |
    +-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`float<class_float>`                                       | :ref:`_font_get_oversampling<class_TextServerExtension_method__font_get_oversampling>` **(** :ref:`RID<class_RID>` font_rid **)** |virtual| |const|                                                                                                                                                                                                                       |
    +-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -969,6 +971,20 @@ void **_font_draw_glyph_outline** **(** :ref:`RID<class_RID>` font_rid, :ref:`RI
 .. rst-class:: classref-method
 
 :ref:`Dictionary<class_Dictionary>` **_font_get_opentype_feature_overrides** **(** :ref:`RID<class_RID>` font_rid **)** |virtual| |const|
+
+.. container:: contribute
+
+	There is currently no description for this method. Please help us by :ref:`contributing one <doc_updating_the_class_reference>`!
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TextServerExtension_method__font_get_ot_name_strings:
+
+.. rst-class:: classref-method
+
+:ref:`Dictionary<class_Dictionary>` **_font_get_ot_name_strings** **(** :ref:`RID<class_RID>` font_rid **)** |virtual| |const|
 
 .. container:: contribute
 
