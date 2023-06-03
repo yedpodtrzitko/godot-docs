@@ -14,14 +14,14 @@ Font
 
 **Inherited By:** :ref:`FontFile<class_FontFile>`, :ref:`FontVariation<class_FontVariation>`, :ref:`SystemFont<class_SystemFont>`
 
-Base class for fonts and font variations.
+Abstract base class for fonts and font variations.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Font is the abstract base class for font, so it shouldn't be used directly. Other types of fonts inherit from it.
+Abstract base class for different font types. It has methods for drawing text and font character introspection.
 
 .. rst-class:: classref-reftable-group
 
@@ -71,6 +71,8 @@ Methods
    | :ref:`Vector2<class_Vector2>`               | :ref:`get_multiline_string_size<class_Font_method_get_multiline_string_size>` **(** :ref:`String<class_String>` text, :ref:`HorizontalAlignment<enum_@GlobalScope_HorizontalAlignment>` alignment=0, :ref:`float<class_float>` width=-1, :ref:`int<class_int>` font_size=16, :ref:`int<class_int>` max_lines=-1, :ref:`LineBreakFlag<enum_TextServer_LineBreakFlag>` brk_flags=3, :ref:`JustificationFlag<enum_TextServer_JustificationFlag>` justification_flags=3, :ref:`Direction<enum_TextServer_Direction>` direction=0, :ref:`Orientation<enum_TextServer_Orientation>` orientation=0 **)** |const|                                                                                                                                                                   |
    +---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Dictionary<class_Dictionary>`         | :ref:`get_opentype_features<class_Font_method_get_opentype_features>` **(** **)** |const|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+   +---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Dictionary<class_Dictionary>`         | :ref:`get_ot_name_strings<class_Font_method_get_ot_name_strings>` **(** **)** |const|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
    +---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`RID[]<class_RID>`                     | :ref:`get_rids<class_Font_method_get_rids>` **(** **)** |const|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
    +---------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -365,6 +367,18 @@ See also :ref:`draw_multiline_string<class_Font_method_draw_multiline_string>`.
 :ref:`Dictionary<class_Dictionary>` **get_opentype_features** **(** **)** |const|
 
 Returns a set of OpenType feature tags. More info: `OpenType feature tags <https://docs.microsoft.com/en-us/typography/opentype/spec/featuretags>`__.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Font_method_get_ot_name_strings:
+
+.. rst-class:: classref-method
+
+:ref:`Dictionary<class_Dictionary>` **get_ot_name_strings** **(** **)** |const|
+
+Returns :ref:`Dictionary<class_Dictionary>` with OpenType font name strings (localized font names, version, description, license information, sample text, etc.).
 
 .. rst-class:: classref-item-separator
 
