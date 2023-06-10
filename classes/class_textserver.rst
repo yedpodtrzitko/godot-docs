@@ -14,14 +14,14 @@ TextServer
 
 **Inherited By:** :ref:`TextServerExtension<class_TextServerExtension>`
 
-Interface for the fonts and complex text layouts.
+A server interface for font management and text rendering.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-**TextServer** is the API backend for managing fonts, and rendering complex text.
+**TextServer** is the API backend for managing fonts and rendering text.
 
 .. rst-class:: classref-reftable-group
 
@@ -107,6 +107,8 @@ Methods
    | :ref:`String<class_String>`                                     | :ref:`font_get_name<class_TextServer_method_font_get_name>` **(** :ref:`RID<class_RID>` font_rid **)** |const|                                                                                                                                                                                                                                                         |
    +-----------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Dictionary<class_Dictionary>`                             | :ref:`font_get_opentype_feature_overrides<class_TextServer_method_font_get_opentype_feature_overrides>` **(** :ref:`RID<class_RID>` font_rid **)** |const|                                                                                                                                                                                                             |
+   +-----------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Dictionary<class_Dictionary>`                             | :ref:`font_get_ot_name_strings<class_TextServer_method_font_get_ot_name_strings>` **(** :ref:`RID<class_RID>` font_rid **)** |const|                                                                                                                                                                                                                                   |
    +-----------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`float<class_float>`                                       | :ref:`font_get_oversampling<class_TextServer_method_font_get_oversampling>` **(** :ref:`RID<class_RID>` font_rid **)** |const|                                                                                                                                                                                                                                         |
    +-----------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1473,7 +1475,7 @@ Method Descriptions
 
 :ref:`RID<class_RID>` **create_font** **(** **)**
 
-Creates new, empty font cache entry resource. To free the resulting resource, use :ref:`free_rid<class_TextServer_method_free_rid>` method.
+Creates a new, empty font cache entry resource. To free the resulting resource, use the :ref:`free_rid<class_TextServer_method_free_rid>` method.
 
 .. rst-class:: classref-item-separator
 
@@ -1946,6 +1948,18 @@ Returns font family name.
 :ref:`Dictionary<class_Dictionary>` **font_get_opentype_feature_overrides** **(** :ref:`RID<class_RID>` font_rid **)** |const|
 
 Returns font OpenType feature set override.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TextServer_method_font_get_ot_name_strings:
+
+.. rst-class:: classref-method
+
+:ref:`Dictionary<class_Dictionary>` **font_get_ot_name_strings** **(** :ref:`RID<class_RID>` font_rid **)** |const|
+
+Returns :ref:`Dictionary<class_Dictionary>` with OpenType font name strings (localized font names, version, description, license information, sample text, etc.).
 
 .. rst-class:: classref-item-separator
 
