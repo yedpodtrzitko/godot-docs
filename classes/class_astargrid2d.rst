@@ -12,16 +12,16 @@ AStarGrid2D
 
 **Inherits:** :ref:`RefCounted<class_RefCounted>` **<** :ref:`Object<class_Object>`
 
-A\* (or "A-Star") pathfinding tailored to find the shortest paths on 2D grids.
+An implementation of A\* for finding the shortest path between two points on a partial 2D grid.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Compared to :ref:`AStar2D<class_AStar2D>` you don't need to manually create points or connect them together. It also supports multiple type of heuristics and modes for diagonal movement. This class also provides a jumping mode which is faster to calculate than without it in the :ref:`AStar2D<class_AStar2D>` class.
+**AStarGrid2D** is a variant of :ref:`AStar2D<class_AStar2D>` that is specialized for partial 2D grids. It is simpler to use because it doesn't require you to manually create points and connect them together. This class also supports multiple types of heuristics, modes for diagonal movement, and a jumping mode to speed up calculations.
 
-In contrast to :ref:`AStar2D<class_AStar2D>`, you only need set the :ref:`region<class_AStarGrid2D_property_region>` of the grid, optionally set the :ref:`cell_size<class_AStarGrid2D_property_cell_size>` and then call the :ref:`update<class_AStarGrid2D_method_update>` method:
+To use **AStarGrid2D**, you only need to set the :ref:`region<class_AStarGrid2D_property_region>` of the grid, optionally set the :ref:`cell_size<class_AStarGrid2D_property_cell_size>`, and then call the :ref:`update<class_AStarGrid2D_method_update>` method:
 
 
 .. tabs::
@@ -38,13 +38,15 @@ In contrast to :ref:`AStar2D<class_AStar2D>`, you only need set the :ref:`region
  .. code-tab:: csharp
 
     AStarGrid2D astarGrid = new AStarGrid2D();
-    astarGrid.Size = new Vector2I(32, 32);
+    astarGrid.Region = new Rect2I(0, 0, 32, 32);
     astarGrid.CellSize = new Vector2I(16, 16);
     astarGrid.Update();
     GD.Print(astarGrid.GetIdPath(Vector2I.Zero, new Vector2I(3, 4))); // prints (0, 0), (1, 1), (2, 2), (3, 3), (3, 4)
     GD.Print(astarGrid.GetPointPath(Vector2I.Zero, new Vector2I(3, 4))); // prints (0, 0), (16, 16), (32, 32), (48, 48), (48, 64)
 
 
+
+To remove a point from the pathfinding grid, it must be set as "solid" with :ref:`set_point_solid<class_AStarGrid2D_method_set_point_solid>`.
 
 .. rst-class:: classref-reftable-group
 
@@ -86,6 +88,10 @@ Methods
    | :ref:`float<class_float>`                           | :ref:`_estimate_cost<class_AStarGrid2D_method__estimate_cost>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)** |virtual| |const| |
    +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                | :ref:`clear<class_AStarGrid2D_method_clear>` **(** **)**                                                                                                                    |
+   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`fill_solid_region<class_AStarGrid2D_method_fill_solid_region>` **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`bool<class_bool>` solid=true **)**                     |
+   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`fill_weight_scale_region<class_AStarGrid2D_method_fill_weight_scale_region>` **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`float<class_float>` weight_scale **)**   |
    +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Vector2i[]<class_Vector2i>`                   | :ref:`get_id_path<class_AStarGrid2D_method_get_id_path>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)**                         |
    +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -387,7 +393,7 @@ The region of grid cells available for pathfinding. If changed, :ref:`update<cla
 
 The size of the grid (number of cells of size :ref:`cell_size<class_AStarGrid2D_property_cell_size>` on each axis). If changed, :ref:`update<class_AStarGrid2D_method_update>` needs to be called before finding the next path.
 
-\ **Note:** This property is deprecated, use :ref:`region<class_AStarGrid2D_property_region>` instead.
+\ *Deprecated.* Use :ref:`region<class_AStarGrid2D_property_region>` instead.
 
 .. rst-class:: classref-section-separator
 
@@ -433,6 +439,34 @@ Note that this function is hidden in the default ``AStarGrid2D`` class.
 void **clear** **(** **)**
 
 Clears the grid and sets the :ref:`region<class_AStarGrid2D_property_region>` to ``Rect2i(0, 0, 0, 0)``.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_AStarGrid2D_method_fill_solid_region:
+
+.. rst-class:: classref-method
+
+void **fill_solid_region** **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`bool<class_bool>` solid=true **)**
+
+Fills the given ``region`` on the grid with the specified value for the solid flag.
+
+\ **Note:** Calling :ref:`update<class_AStarGrid2D_method_update>` is not needed after the call of this function.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_AStarGrid2D_method_fill_weight_scale_region:
+
+.. rst-class:: classref-method
+
+void **fill_weight_scale_region** **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`float<class_float>` weight_scale **)**
+
+Fills the given ``region`` on the grid with the specified value for the weight scale.
+
+\ **Note:** Calling :ref:`update<class_AStarGrid2D_method_update>` is not needed after the call of this function.
 
 .. rst-class:: classref-item-separator
 
@@ -580,3 +614,4 @@ Updates the internal state of the grid according to the parameters to prepare it
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`

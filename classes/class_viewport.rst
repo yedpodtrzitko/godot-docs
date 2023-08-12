@@ -14,7 +14,7 @@ Viewport
 
 **Inherited By:** :ref:`SubViewport<class_SubViewport>`, :ref:`Window<class_Window>`
 
-Base class for viewports.
+Abstract base class for viewports. Encapsulates drawing and interaction with a game world.
 
 .. rst-class:: classref-introduction-group
 
@@ -23,7 +23,7 @@ Description
 
 A Viewport creates a different view into the screen, or a sub-view inside another viewport. Children 2D Nodes will display on it, and children Camera3D 3D nodes will render on it too.
 
-Optionally, a viewport can have its own 2D or 3D world, so they don't share what they draw with other viewports.
+Optionally, a viewport can have its own 2D or 3D world, so it doesn't share what it draws with other viewports.
 
 Viewports can also choose to be audio listeners, so they generate positional audio depending on a 2D or 3D camera child of it.
 
@@ -133,6 +133,8 @@ Properties
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+----------------+
    | :ref:`bool<class_bool>`                                                                       | :ref:`use_debanding<class_Viewport_property_use_debanding>`                                           | ``false``      |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+----------------+
+   | :ref:`bool<class_bool>`                                                                       | :ref:`use_hdr_2d<class_Viewport_property_use_hdr_2d>`                                                 | ``false``      |
+   +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+----------------+
    | :ref:`bool<class_bool>`                                                                       | :ref:`use_occlusion_culling<class_Viewport_property_use_occlusion_culling>`                           | ``false``      |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+----------------+
    | :ref:`bool<class_bool>`                                                                       | :ref:`use_taa<class_Viewport_property_use_taa>`                                                       | ``false``      |
@@ -185,7 +187,7 @@ Methods
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Variant<class_Variant>`                                                                 | :ref:`gui_get_drag_data<class_Viewport_method_gui_get_drag_data>` **(** **)** |const|                                                                                                                                                                                  |
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Control<class_Control>`                                                                 | :ref:`gui_get_focus_owner<class_Viewport_method_gui_get_focus_owner>` **(** **)**                                                                                                                                                                                      |
+   | :ref:`Control<class_Control>`                                                                 | :ref:`gui_get_focus_owner<class_Viewport_method_gui_get_focus_owner>` **(** **)** |const|                                                                                                                                                                              |
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`bool<class_bool>`                                                                       | :ref:`gui_is_drag_successful<class_Viewport_method_gui_is_drag_successful>` **(** **)** |const|                                                                                                                                                                        |
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -206,6 +208,8 @@ Methods
    | void                                                                                          | :ref:`set_input_as_handled<class_Viewport_method_set_input_as_handled>` **(** **)**                                                                                                                                                                                    |
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                                                          | :ref:`set_positional_shadow_atlas_quadrant_subdiv<class_Viewport_method_set_positional_shadow_atlas_quadrant_subdiv>` **(** :ref:`int<class_int>` quadrant, :ref:`PositionalShadowAtlasQuadrantSubdiv<enum_Viewport_PositionalShadowAtlasQuadrantSubdiv>` subdiv **)** |
+   +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                                                          | :ref:`update_mouse_cursor_state<class_Viewport_method_update_mouse_cursor_state>` **(** **)**                                                                                                                                                                          |
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                                                          | :ref:`warp_mouse<class_Viewport_method_warp_mouse>` **(** :ref:`Vector2<class_Vector2>` position **)**                                                                                                                                                                 |
    +-----------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1567,7 +1571,7 @@ Sets the screen-space antialiasing method used. Screen-space antialiasing works 
 
 Affects the final texture sharpness by reading from a lower or higher mipmap (also called "texture LOD bias"). Negative values make mipmapped textures sharper but grainier when viewed at a distance, while positive values make mipmapped textures blurrier (even when up close).
 
-Enabling temporal antialiasing (:ref:`use_taa<class_Viewport_property_use_taa>`) will automatically apply a ``-0.5`` offset to this value, while enabling FXAA (:ref:`screen_space_aa<class_Viewport_property_screen_space_aa>`) will automatically apply a ``-0.25`` offset to this value. If both TAA and FXAA are enbled at the same time, an offset of ``-0.75`` is applied to this value.
+Enabling temporal antialiasing (:ref:`use_taa<class_Viewport_property_use_taa>`) will automatically apply a ``-0.5`` offset to this value, while enabling FXAA (:ref:`screen_space_aa<class_Viewport_property_screen_space_aa>`) will automatically apply a ``-0.25`` offset to this value. If both TAA and FXAA are enabled at the same time, an offset of ``-0.75`` is applied to this value.
 
 \ **Note:** If :ref:`scaling_3d_scale<class_Viewport_property_scaling_3d_scale>` is lower than ``1.0`` (exclusive), :ref:`texture_mipmap_bias<class_Viewport_property_texture_mipmap_bias>` is used to adjust the automatic mipmap bias which is calculated internally based on the scale factor. The formula for this is ``log2(scaling_3d_scale) + mipmap_bias``.
 
@@ -1608,6 +1612,25 @@ If ``true``, the viewport should render its background as transparent.
 If ``true``, uses a fast post-processing filter to make banding significantly less visible in 3D. 2D rendering is *not* affected by debanding unless the :ref:`Environment.background_mode<class_Environment_property_background_mode>` is :ref:`Environment.BG_CANVAS<class_Environment_constant_BG_CANVAS>`. See also :ref:`ProjectSettings.rendering/anti_aliasing/quality/use_debanding<class_ProjectSettings_property_rendering/anti_aliasing/quality/use_debanding>`.
 
 In some cases, debanding may introduce a slightly noticeable dithering pattern. It's recommended to enable debanding only when actually needed since the dithering pattern will make lossless-compressed screenshots larger.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Viewport_property_use_hdr_2d:
+
+.. rst-class:: classref-property
+
+:ref:`bool<class_bool>` **use_hdr_2d** = ``false``
+
+.. rst-class:: classref-property-setget
+
+- void **set_use_hdr_2d** **(** :ref:`bool<class_bool>` value **)**
+- :ref:`bool<class_bool>` **is_using_hdr_2d** **(** **)**
+
+If ``true``, 2D rendering will use an high dynamic range (HDR) format framebuffer matching the bit depth of the 3D framebuffer. When using the Forward+ renderer this will be a ``RGBA16`` framebuffer, while when using the Mobile renderer it will be a ``RGB10_A2`` framebuffer. Additionally, 2D rendering will take place in linear color space and will be converted to sRGB space immediately before blitting to the screen (if the Viewport is attached to the screen). Practically speaking, this means that the end result of the Viewport will not be clamped into the ``0-1`` range and can be used in 3D rendering without color space adjustments. This allows 2D rendering to take advantage of effects requiring high dynamic range (e.g. 2D glow) as well as substantially improves the appearance of effects requiring highly detailed gradients.
+
+\ **Note:** This setting will have no effect when using the GL Compatibility renderer as the GL Compatibility renderer always renders in low dynamic range for performance reasons.
 
 .. rst-class:: classref-item-separator
 
@@ -1936,7 +1959,7 @@ Returns the drag data from the GUI, that was previously returned by :ref:`Contro
 
 .. rst-class:: classref-method
 
-:ref:`Control<class_Control>` **gui_get_focus_owner** **(** **)**
+:ref:`Control<class_Control>` **gui_get_focus_owner** **(** **)** |const|
 
 Returns the :ref:`Control<class_Control>` having the focus within this viewport. If no :ref:`Control<class_Control>` has the focus, returns null.
 
@@ -2018,9 +2041,9 @@ Calling this method will propagate calls to child nodes for following methods in
 
 - :ref:`Node._shortcut_input<class_Node_method__shortcut_input>`\ 
 
-- :ref:`Node._unhandled_input<class_Node_method__unhandled_input>`\ 
-
 - :ref:`Node._unhandled_key_input<class_Node_method__unhandled_key_input>`\ 
+
+- :ref:`Node._unhandled_input<class_Node_method__unhandled_input>`\ 
 
 If an earlier method marks the input as handled via :ref:`set_input_as_handled<class_Viewport_method_set_input_as_handled>`, any later method in this list will not be called.
 
@@ -2058,13 +2081,17 @@ Calling this method will propagate calls to child nodes for following methods in
 
 - :ref:`Node._shortcut_input<class_Node_method__shortcut_input>`\ 
 
-- :ref:`Node._unhandled_input<class_Node_method__unhandled_input>`\ 
-
 - :ref:`Node._unhandled_key_input<class_Node_method__unhandled_key_input>`\ 
+
+- :ref:`Node._unhandled_input<class_Node_method__unhandled_input>`\ 
 
 If an earlier method marks the input as handled via :ref:`set_input_as_handled<class_Viewport_method_set_input_as_handled>`, any later method in this list will not be called.
 
 If none of the methods handle the event and :ref:`physics_object_picking<class_Viewport_property_physics_object_picking>` is ``true``, the event is used for physics object picking.
+
+\ **Note:** This method doesn't propagate input events to embedded :ref:`Window<class_Window>`\ s or :ref:`SubViewport<class_SubViewport>`\ s.
+
+\ *Deprecated.* Use :ref:`push_input<class_Viewport_method_push_input>` instead.
 
 .. rst-class:: classref-item-separator
 
@@ -2108,6 +2135,18 @@ Sets the number of subdivisions to use in the specified quadrant. A higher numbe
 
 ----
 
+.. _class_Viewport_method_update_mouse_cursor_state:
+
+.. rst-class:: classref-method
+
+void **update_mouse_cursor_state** **(** **)**
+
+Force instantly updating the display based on the current mouse cursor position. This includes updating the mouse cursor shape and sending necessary :ref:`Control.mouse_entered<class_Control_signal_mouse_entered>`, :ref:`CollisionObject2D.mouse_entered<class_CollisionObject2D_signal_mouse_entered>`, :ref:`CollisionObject3D.mouse_entered<class_CollisionObject3D_signal_mouse_entered>` and :ref:`Window.mouse_entered<class_Window_signal_mouse_entered>` signals and their respective ``mouse_exited`` counterparts.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_Viewport_method_warp_mouse:
 
 .. rst-class:: classref-method
@@ -2124,3 +2163,4 @@ Moves the mouse pointer to the specified position in this **Viewport** using the
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
