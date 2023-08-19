@@ -12,16 +12,16 @@ Tree
 
 **Inherits:** :ref:`Control<class_Control>` **<** :ref:`CanvasItem<class_CanvasItem>` **<** :ref:`Node<class_Node>` **<** :ref:`Object<class_Object>`
 
-Control to show a tree of items.
+A control used to show a set of internal :ref:`TreeItem<class_TreeItem>`\ s in a hierarchical structure.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-This shows a tree of items that can be selected, expanded and collapsed. The tree can have multiple columns with custom controls like text editing, buttons and popups. It can be useful for structured displays and interactions.
+A control used to show a set of internal :ref:`TreeItem<class_TreeItem>`\ s in a hierarchical structure. The tree items can be selected, expanded and collapsed. The tree can have multiple columns with custom controls like :ref:`LineEdit<class_LineEdit>`\ s, buttons and popups. It can be useful for structured displays and interactions.
 
-Trees are built via code, using :ref:`TreeItem<class_TreeItem>` objects to create the structure. They have a single root but multiple roots can be simulated if a dummy hidden root is added.
+Trees are built via code, using :ref:`TreeItem<class_TreeItem>` objects to create the structure. They have a single root, but multiple roots can be simulated with :ref:`hide_root<class_Tree_property_hide_root>`:
 
 
 .. tabs::
@@ -219,6 +219,14 @@ Theme Properties
    +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
    | :ref:`int<class_int>`             | :ref:`icon_max_width<class_Tree_theme_constant_icon_max_width>`                          | ``0``                             |
    +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`inner_item_margin_bottom<class_Tree_theme_constant_inner_item_margin_bottom>`      | ``0``                             |
+   +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`inner_item_margin_left<class_Tree_theme_constant_inner_item_margin_left>`          | ``0``                             |
+   +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`inner_item_margin_right<class_Tree_theme_constant_inner_item_margin_right>`        | ``0``                             |
+   +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`inner_item_margin_top<class_Tree_theme_constant_inner_item_margin_top>`            | ``0``                             |
+   +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
    | :ref:`int<class_int>`             | :ref:`item_margin<class_Tree_theme_constant_item_margin>`                                | ``16``                            |
    +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
    | :ref:`int<class_int>`             | :ref:`outline_size<class_Tree_theme_constant_outline_size>`                              | ``0``                             |
@@ -252,6 +260,8 @@ Theme Properties
    | :ref:`Font<class_Font>`           | :ref:`title_button_font<class_Tree_theme_font_title_button_font>`                        |                                   |
    +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
    | :ref:`int<class_int>`             | :ref:`font_size<class_Tree_theme_font_size_font_size>`                                   |                                   |
+   +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`title_button_font_size<class_Tree_theme_font_size_title_button_font_size>`         |                                   |
    +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
    | :ref:`Texture2D<class_Texture2D>` | :ref:`arrow<class_Tree_theme_icon_arrow>`                                                |                                   |
    +-----------------------------------+------------------------------------------------------------------------------------------+-----------------------------------+
@@ -1478,6 +1488,54 @@ The maximum allowed width of the icon in item's cells. This limit is applied on 
 
 ----
 
+.. _class_Tree_theme_constant_inner_item_margin_bottom:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`int<class_int>` **inner_item_margin_bottom** = ``0``
+
+The inner bottom margin of an item.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Tree_theme_constant_inner_item_margin_left:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`int<class_int>` **inner_item_margin_left** = ``0``
+
+The inner left margin of an item.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Tree_theme_constant_inner_item_margin_right:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`int<class_int>` **inner_item_margin_right** = ``0``
+
+The inner right margin of an item.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Tree_theme_constant_inner_item_margin_top:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`int<class_int>` **inner_item_margin_top** = ``0``
+
+The inner top margin of an item.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_Tree_theme_constant_item_margin:
 
 .. rst-class:: classref-themeproperty
@@ -1679,6 +1737,18 @@ The vertical padding inside each item, i.e. the distance between the item's cont
 :ref:`int<class_int>` **font_size**
 
 Font size of the item's text.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Tree_theme_font_size_title_button_font_size:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`int<class_int>` **title_button_font_size**
+
+Font size of the title button's text.
 
 .. rst-class:: classref-item-separator
 
@@ -1938,3 +2008,4 @@ Default :ref:`StyleBox<class_StyleBox>` for the title button.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
