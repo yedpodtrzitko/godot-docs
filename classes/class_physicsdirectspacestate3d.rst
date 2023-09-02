@@ -14,14 +14,14 @@ PhysicsDirectSpaceState3D
 
 **Inherited By:** :ref:`PhysicsDirectSpaceState3DExtension<class_PhysicsDirectSpaceState3DExtension>`
 
-Direct access object to a space in the :ref:`PhysicsServer3D<class_PhysicsServer3D>`.
+Provides direct access to a physics space in the :ref:`PhysicsServer3D<class_PhysicsServer3D>`.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Direct access object to a space in the :ref:`PhysicsServer3D<class_PhysicsServer3D>`. It's used mainly to do queries against objects and areas residing in a given space.
+Provides direct access to a physics space in the :ref:`PhysicsServer3D<class_PhysicsServer3D>`. It's used mainly to do queries against objects and areas residing in a given space.
 
 .. rst-class:: classref-introduction-group
 
@@ -161,6 +161,10 @@ Intersects a ray in a given space. Ray position and other parameters are defined
 
 \ ``position``: The intersection point.
 
+\ ``face_index``: The face index at the intersection point.
+
+\ **Note:** Returns a valid number only if the intersected shape is a :ref:`ConcavePolygonShape3D<class_ConcavePolygonShape3D>`. Otherwise, ``-1`` is returned.
+
 \ ``rid``: The intersecting object's :ref:`RID<class_RID>`.
 
 \ ``shape``: The shape index of the colliding shape.
@@ -197,3 +201,4 @@ The number of intersections can be limited with the ``max_results`` parameter, t
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
