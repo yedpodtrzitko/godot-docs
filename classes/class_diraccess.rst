@@ -12,14 +12,14 @@ DirAccess
 
 **Inherits:** :ref:`RefCounted<class_RefCounted>` **<** :ref:`Object<class_Object>`
 
-Type used to handle the filesystem.
+Provides methods for managing directories and their content.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Directory type. It is used to manage directories and their content (not restricted to the project folder).
+This class is used to manage directories and their content, even outside of the project folder.
 
 \ **DirAccess** can't be instantiated directly. Instead it is created with a static method that takes a path for which it will be opened.
 
@@ -237,6 +237,8 @@ Changes the currently opened directory to the one passed as an argument. The arg
 
 Returns one of the :ref:`Error<enum_@GlobalScope_Error>` code constants (:ref:`@GlobalScope.OK<class_@GlobalScope_constant_OK>` on success).
 
+\ **Note:** The new directory must be within the same scope, e.g. when you had opened a directory inside ``res://``, you can't change it to ``user://`` directory. If you need to open a directory in another access scope, use :ref:`open<class_DirAccess_method_open>` to create a new instance instead.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -417,7 +419,7 @@ Returns a :ref:`PackedStringArray<class_PackedStringArray>` containing filenames
 
 Affected by :ref:`include_hidden<class_DirAccess_property_include_hidden>`.
 
-\ **Note:** When used on a ``res://`` path in an exported project, only the files actually included in the PCK at the given folder level are returned. In practice, this means that since imported resources are stored in a top-level ``.godot/`` folder, only paths to ``*.gd`` and ``*.import`` files are returned (plus a few files such as ``project.godot`` or ``project.binary[code] and the project icon). In an exported project, the list of returned files will also vary depending on whether [member ProjectSettings.editor/export/convert_text_resources_to_binary] is [code]true``.
+\ **Note:** When used on a ``res://`` path in an exported project, only the files actually included in the PCK at the given folder level are returned. In practice, this means that since imported resources are stored in a top-level ``.godot/`` folder, only paths to ``*.gd`` and ``*.import`` files are returned (plus a few files such as ``project.godot`` or ``project.binary`` and the project icon). In an exported project, the list of returned files will also vary depending on whether :ref:`ProjectSettings.editor/export/convert_text_resources_to_binary<class_ProjectSettings_property_editor/export/convert_text_resources_to_binary>` is ``true``.
 
 .. rst-class:: classref-item-separator
 
@@ -625,3 +627,4 @@ Static version of :ref:`rename<class_DirAccess_method_rename>`. Supports only ab
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
