@@ -390,7 +390,7 @@ Rotates the node so it points towards the ``point``, which is expected to use gl
 
 void **move_local_x** **(** :ref:`float<class_float>` delta, :ref:`bool<class_bool>` scaled=false **)**
 
-Applies a local translation on the node's X axis based on the :ref:`Node._process<class_Node_method__process>`'s ``delta``. If ``scaled`` is ``false``, normalizes the movement.
+Applies a local translation on the node's X axis based on the :ref:`Node._process<class_Node_private_method__process>`'s ``delta``. If ``scaled`` is ``false``, normalizes the movement.
 
 .. rst-class:: classref-item-separator
 
@@ -402,7 +402,7 @@ Applies a local translation on the node's X axis based on the :ref:`Node._proces
 
 void **move_local_y** **(** :ref:`float<class_float>` delta, :ref:`bool<class_bool>` scaled=false **)**
 
-Applies a local translation on the node's Y axis based on the :ref:`Node._process<class_Node_method__process>`'s ``delta``. If ``scaled`` is ``false``, normalizes the movement.
+Applies a local translation on the node's Y axis based on the :ref:`Node._process<class_Node_private_method__process>`'s ``delta``. If ``scaled`` is ``false``, normalizes the movement.
 
 .. rst-class:: classref-item-separator
 
@@ -458,3 +458,4 @@ Translates the node by the given ``offset`` in local coordinates.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
