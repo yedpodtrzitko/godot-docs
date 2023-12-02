@@ -877,7 +877,7 @@ Compress the animation and all its tracks in-place. This will make :ref:`track_i
 
 void **copy_track** **(** :ref:`int<class_int>` track_idx, :ref:`Animation<class_Animation>` to_animation **)**
 
-Adds a new track that is a copy of the given track from ``to_animation``.
+Adds a new track to ``to_animation`` that is a copy of the given track from this animation.
 
 .. rst-class:: classref-item-separator
 
@@ -1379,3 +1379,4 @@ Sets the update mode (see :ref:`UpdateMode<enum_Animation_UpdateMode>`) of a val
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
