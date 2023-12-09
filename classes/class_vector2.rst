@@ -10,14 +10,14 @@
 Vector2
 =======
 
-Vector used for 2D math using floating point coordinates.
+A 2D vector using floating point coordinates.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-2-element structure that can be used to represent positions in 2D space or any other pair of numeric values.
+A 2-element structure that can be used to represent 2D coordinates or any other pair of numeric values.
 
 It uses floating-point coordinates. By default, these floating-point values use 32-bit precision, unlike :ref:`float<class_float>` which is always 64-bit. If double precision is needed, compile the engine with the option ``precision=double``.
 
@@ -548,7 +548,7 @@ Performs a cubic interpolation between this vector and ``b`` using ``pre_a`` and
 
 Performs a cubic interpolation between this vector and ``b`` using ``pre_a`` and ``post_b`` as handles, and returns the result at position ``weight``. ``weight`` is on the range of 0.0 to 1.0, representing the amount of interpolation.
 
-It can perform smoother interpolation than ``cubic_interpolate()`` by the time values.
+It can perform smoother interpolation than :ref:`cubic_interpolate<class_Vector2_method_cubic_interpolate>` by the time values.
 
 .. rst-class:: classref-item-separator
 
@@ -939,6 +939,8 @@ Returns ``true`` if the vectors are not equal.
 
 \ **Note:** Due to floating-point precision errors, consider using :ref:`is_equal_approx<class_Vector2_method_is_equal_approx>` instead, which is more reliable.
 
+\ **Note:** Vectors with :ref:`@GDScript.NAN<class_@GDScript_constant_NAN>` elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -949,7 +951,11 @@ Returns ``true`` if the vectors are not equal.
 
 :ref:`Vector2<class_Vector2>` **operator *** **(** :ref:`Transform2D<class_Transform2D>` right **)**
 
-Inversely transforms (multiplies) the **Vector2** by the given :ref:`Transform2D<class_Transform2D>` transformation matrix.
+Inversely transforms (multiplies) the **Vector2** by the given :ref:`Transform2D<class_Transform2D>` transformation matrix, under the assumption that the transformation basis is orthonormal (i.e. rotation/reflection is fine, scaling/skew is not).
+
+\ ``vector * transform`` is equivalent to ``transform.inverse() * vector``. See :ref:`Transform2D.inverse<class_Transform2D_method_inverse>`.
+
+For transforming by inverse of an affine transformation (e.g. with scaling) ``transform.affine_inverse() * vector`` can be used instead. See :ref:`Transform2D.affine_inverse<class_Transform2D_method_affine_inverse>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1075,6 +1081,8 @@ Divides each component of the **Vector2** by the given :ref:`int<class_int>`.
 
 Compares two **Vector2** vectors by first checking if the X value of the left vector is less than the X value of the ``right`` vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 
+\ **Note:** Vectors with :ref:`@GDScript.NAN<class_@GDScript_constant_NAN>` elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -1086,6 +1094,8 @@ Compares two **Vector2** vectors by first checking if the X value of the left ve
 :ref:`bool<class_bool>` **operator <=** **(** :ref:`Vector2<class_Vector2>` right **)**
 
 Compares two **Vector2** vectors by first checking if the X value of the left vector is less than or equal to the X value of the ``right`` vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
+
+\ **Note:** Vectors with :ref:`@GDScript.NAN<class_@GDScript_constant_NAN>` elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included.
 
 .. rst-class:: classref-item-separator
 
@@ -1101,6 +1111,8 @@ Returns ``true`` if the vectors are exactly equal.
 
 \ **Note:** Due to floating-point precision errors, consider using :ref:`is_equal_approx<class_Vector2_method_is_equal_approx>` instead, which is more reliable.
 
+\ **Note:** Vectors with :ref:`@GDScript.NAN<class_@GDScript_constant_NAN>` elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -1113,6 +1125,8 @@ Returns ``true`` if the vectors are exactly equal.
 
 Compares two **Vector2** vectors by first checking if the X value of the left vector is greater than the X value of the ``right`` vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
 
+\ **Note:** Vectors with :ref:`@GDScript.NAN<class_@GDScript_constant_NAN>` elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -1124,6 +1138,8 @@ Compares two **Vector2** vectors by first checking if the X value of the left ve
 :ref:`bool<class_bool>` **operator >=** **(** :ref:`Vector2<class_Vector2>` right **)**
 
 Compares two **Vector2** vectors by first checking if the X value of the left vector is greater than or equal to the X value of the ``right`` vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors. This operator is useful for sorting vectors.
+
+\ **Note:** Vectors with :ref:`@GDScript.NAN<class_@GDScript_constant_NAN>` elements don't behave the same as other vectors. Therefore, the results from this operator may not be accurate if NaNs are included.
 
 .. rst-class:: classref-item-separator
 
@@ -1167,3 +1183,4 @@ Returns the negative value of the **Vector2**. This is the same as writing ``Vec
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`

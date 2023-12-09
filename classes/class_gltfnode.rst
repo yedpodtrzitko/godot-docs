@@ -28,6 +28,8 @@ GLTF nodes generally exist inside of :ref:`GLTFState<class_GLTFState>` which rep
 Tutorials
 ---------
 
+- :doc:`Runtime file loading and saving <../tutorials/io/runtime_file_loading_and_saving>`
+
 - `GLTF scene and node spec <https://github.com/KhronosGroup/glTF-Tutorials/blob/master/gltfTutorial/gltfTutorial_004_ScenesNodes.md">`__
 
 .. rst-class:: classref-reftable-group
@@ -326,3 +328,4 @@ The first argument should be the :ref:`GLTFDocumentExtension<class_GLTFDocumentE
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`

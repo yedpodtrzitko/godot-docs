@@ -23,6 +23,10 @@ Quaternions can be parametrized using both an axis-angle pair or Euler angles. D
 
 \ **Note:** Quaternions need to be normalized before being used for rotation.
 
+.. note::
+
+	There are notable differences when using this API with C#. See :ref:`doc_c_sharp_differences` for more information.
+
 .. rst-class:: classref-introduction-group
 
 Tutorials
@@ -546,7 +550,7 @@ Performs a spherical cubic interpolation between quaternions ``pre_a``, this vec
 
 Performs a spherical cubic interpolation between quaternions ``pre_a``, this vector, ``b``, and ``post_b``, by the given amount ``weight``.
 
-It can perform smoother interpolation than ``spherical_cubic_interpolate()`` by the time values.
+It can perform smoother interpolation than :ref:`spherical_cubic_interpolate<class_Quaternion_method_spherical_cubic_interpolate>` by the time values.
 
 .. rst-class:: classref-section-separator
 
@@ -719,3 +723,4 @@ Returns the negative value of the **Quaternion**. This is the same as writing ``
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
