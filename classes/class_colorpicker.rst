@@ -12,16 +12,16 @@ ColorPicker
 
 **Inherits:** :ref:`VBoxContainer<class_VBoxContainer>` **<** :ref:`BoxContainer<class_BoxContainer>` **<** :ref:`Container<class_Container>` **<** :ref:`Control<class_Control>` **<** :ref:`CanvasItem<class_CanvasItem>` **<** :ref:`Node<class_Node>` **<** :ref:`Object<class_Object>`
 
-Color picker control.
+A widget that provides an interface for selecting or modifying a color.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Displays a color picker widget. Useful for selecting a color from an RGB/RGBA colorspace.
+A widget that provides an interface for selecting or modifying a color. It can optionally provide functionalities like a color sampler (eyedropper), color modes, and presets.
 
-\ **Note:** This control is the color picker widget itself. You can use a :ref:`ColorPickerButton<class_ColorPickerButton>` instead if you need a button that brings up a **ColorPicker** in a pop-up.
+\ **Note:** This control is the color picker widget itself. You can use a :ref:`ColorPickerButton<class_ColorPickerButton>` instead if you need a button that brings up a **ColorPicker** in a popup.
 
 .. rst-class:: classref-introduction-group
 
@@ -122,6 +122,8 @@ Theme Properties
    | :ref:`Texture2D<class_Texture2D>` | :ref:`picker_cursor<class_ColorPicker_theme_icon_picker_cursor>`                       |         |
    +-----------------------------------+----------------------------------------------------------------------------------------+---------+
    | :ref:`Texture2D<class_Texture2D>` | :ref:`sample_bg<class_ColorPicker_theme_icon_sample_bg>`                               |         |
+   +-----------------------------------+----------------------------------------------------------------------------------------+---------+
+   | :ref:`Texture2D<class_Texture2D>` | :ref:`sample_revert<class_ColorPicker_theme_icon_sample_revert>`                       |         |
    +-----------------------------------+----------------------------------------------------------------------------------------+---------+
    | :ref:`Texture2D<class_Texture2D>` | :ref:`screen_picker<class_ColorPicker_theme_icon_screen_picker>`                       |         |
    +-----------------------------------+----------------------------------------------------------------------------------------+---------+
@@ -562,7 +564,7 @@ Theme Property Descriptions
 
 :ref:`int<class_int>` **center_slider_grabbers** = ``1``
 
-Overrides the :ref:`HSlider.center_grabber<class_HSlider_theme_constant_center_grabber>` theme property of the sliders.
+Overrides the :ref:`Slider.center_grabber<class_Slider_theme_constant_center_grabber>` theme property of the sliders.
 
 .. rst-class:: classref-item-separator
 
@@ -736,6 +738,18 @@ Background panel for the color preview box (visible when the color is translucen
 
 ----
 
+.. _class_ColorPicker_theme_icon_sample_revert:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`Texture2D<class_Texture2D>` **sample_revert**
+
+The icon for the revert button (visible on the middle of the "old" color when it differs from the currently selected color). This icon is modulated with a dark color if the "old" color is bright enough, so the icon should be bright to ensure visibility in both scenarios.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_ColorPicker_theme_icon_screen_picker:
 
 .. rst-class:: classref-themeproperty
@@ -786,3 +800,4 @@ The icon for rectangular wheel picker shapes.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`

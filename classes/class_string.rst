@@ -10,7 +10,7 @@
 String
 ======
 
-Built-in string Variant type.
+A built-in type for strings.
 
 .. rst-class:: classref-introduction-group
 
@@ -21,7 +21,11 @@ This is the built-in string Variant type (and the one used by GDScript). Strings
 
 Some string methods have corresponding variations. Variations suffixed with ``n`` (:ref:`countn<class_String_method_countn>`, :ref:`findn<class_String_method_findn>`, :ref:`replacen<class_String_method_replacen>`, etc.) are **case-insensitive** (they make no distinction between uppercase and lowercase letters). Method variations prefixed with ``r`` (:ref:`rfind<class_String_method_rfind>`, :ref:`rsplit<class_String_method_rsplit>`, etc.) are reversed, and start from the end of the string, instead of the beginning.
 
-\ **Note:** In a boolean context, a string will evaluate to ``false`` if it is empty (``""``). Otherwise, a string will always evaluate to ``true``.
+\ **Note:** In a boolean context, a string will evaluate to ``false`` if it is empty (``""``). Otherwise, a string will always evaluate to ``true``. The ``not`` operator cannot be used. Instead, :ref:`is_empty<class_String_method_is_empty>` should be used to check for empty strings.
+
+.. note::
+
+	There are notable differences when using this API with C#. See :ref:`doc_c_sharp_differences` for more information.
 
 .. rst-class:: classref-introduction-group
 
@@ -186,6 +190,8 @@ Methods
    | :ref:`String<class_String>`                         | :ref:`replace<class_String_method_replace>` **(** :ref:`String<class_String>` what, :ref:`String<class_String>` forwhat **)** |const|                                              |
    +-----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                         | :ref:`replacen<class_String_method_replacen>` **(** :ref:`String<class_String>` what, :ref:`String<class_String>` forwhat **)** |const|                                            |
+   +-----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`String<class_String>`                         | :ref:`reverse<class_String_method_reverse>` **(** **)** |const|                                                                                                                    |
    +-----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`int<class_int>`                               | :ref:`rfind<class_String_method_rfind>` **(** :ref:`String<class_String>` what, :ref:`int<class_int>` from=-1 **)** |const|                                                        |
    +-----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -749,7 +755,7 @@ If the string is a valid file path, returns the file name, including the extensi
 
 :ref:`String<class_String>` **get_slice** **(** :ref:`String<class_String>` delimiter, :ref:`int<class_int>` slice **)** |const|
 
-Splits the string using a ``delimiter`` and returns the substring at index ``slice``. Returns an empty string if the ``slice`` does not exist.
+Splits the string using a ``delimiter`` and returns the substring at index ``slice``. Returns the original string if ``delimiter`` does not occur in the string. Returns an empty string if the ``slice`` does not exist.
 
 This is faster than :ref:`split<class_String_method_split>`, if you only need one substring.
 
@@ -797,7 +803,7 @@ This is faster than :ref:`split<class_String_method_split>`, if you only need on
 
 Returns the 32-bit hash value representing the string's contents.
 
-\ **Note:** Strings with equal hash values are *not* guaranteed to be the same, as a result of hash collisions. On the countrary, strings with different hash values are guaranteed to be different.
+\ **Note:** Strings with equal hash values are *not* guaranteed to be the same, as a result of hash collisions. On the contrary, strings with different hash values are guaranteed to be different.
 
 .. rst-class:: classref-item-separator
 
@@ -1458,6 +1464,18 @@ Replaces all **case-insensitive** occurrences of ``what`` inside the string with
 
 ----
 
+.. _class_String_method_reverse:
+
+.. rst-class:: classref-method
+
+:ref:`String<class_String>` **reverse** **(** **)** |const|
+
+Returns the copy of this string in reverse order.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_String_method_rfind:
 
 .. rst-class:: classref-method
@@ -1752,7 +1770,7 @@ Returns part of the string from the position ``from`` with length ``len``. If ``
 
 :ref:`PackedByteArray<class_PackedByteArray>` **to_ascii_buffer** **(** **)** |const|
 
-Converts the string to an `ASCII <https://en.wikipedia.org/wiki/ASCII>`__/Latin-1 encoded :ref:`PackedByteArray<class_PackedByteArray>`. This method is slightly faster than :ref:`to_utf8_buffer<class_String_method_to_utf8_buffer>`, but replaces all unsupported characters with spaces.
+Converts the string to an `ASCII <https://en.wikipedia.org/wiki/ASCII>`__/Latin-1 encoded :ref:`PackedByteArray<class_PackedByteArray>`. This method is slightly faster than :ref:`to_utf8_buffer<class_String_method_to_utf8_buffer>`, but replaces all unsupported characters with spaces. This is the inverse of :ref:`PackedByteArray.get_string_from_ascii<class_PackedByteArray_method_get_string_from_ascii>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1780,11 +1798,11 @@ Converts the string representing a decimal number into a :ref:`float<class_float
 
 ::
 
-    var a = "12.35".to_float() # a is 12.35
-    var b = "1.2.3".to_float() # b is 1.2
-    var c = "12xy3".to_float() # c is 12.0
-    var d = "1e3".to_float()   # d is 1000.0
-    var e = "Hello!".to_int()  # e is 0.0
+    var a = "12.35".to_float()  # a is 12.35
+    var b = "1.2.3".to_float()  # b is 1.2
+    var c = "12xy3".to_float()  # c is 12.0
+    var d = "1e3".to_float()    # d is 1000.0
+    var e = "Hello!".to_float() # e is 0.0
 
 .. rst-class:: classref-item-separator
 
@@ -1863,7 +1881,7 @@ Returns the string converted to uppercase.
 
 :ref:`PackedByteArray<class_PackedByteArray>` **to_utf8_buffer** **(** **)** |const|
 
-Converts the string to a `UTF-8 <https://en.wikipedia.org/wiki/UTF-8>`__ encoded :ref:`PackedByteArray<class_PackedByteArray>`. This method is slightly slower than :ref:`to_ascii_buffer<class_String_method_to_ascii_buffer>`, but supports all UTF-8 characters. For most cases, prefer using this method.
+Converts the string to a `UTF-8 <https://en.wikipedia.org/wiki/UTF-8>`__ encoded :ref:`PackedByteArray<class_PackedByteArray>`. This method is slightly slower than :ref:`to_ascii_buffer<class_String_method_to_ascii_buffer>`, but supports all UTF-8 characters. For most cases, prefer using this method. This is the inverse of :ref:`PackedByteArray.get_string_from_utf8<class_PackedByteArray_method_get_string_from_utf8>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1875,7 +1893,7 @@ Converts the string to a `UTF-8 <https://en.wikipedia.org/wiki/UTF-8>`__ encoded
 
 :ref:`PackedByteArray<class_PackedByteArray>` **to_utf16_buffer** **(** **)** |const|
 
-Converts the string to a `UTF-16 <https://en.wikipedia.org/wiki/UTF-16>`__ encoded :ref:`PackedByteArray<class_PackedByteArray>`.
+Converts the string to a `UTF-16 <https://en.wikipedia.org/wiki/UTF-16>`__ encoded :ref:`PackedByteArray<class_PackedByteArray>`. This is the inverse of :ref:`PackedByteArray.get_string_from_utf16<class_PackedByteArray_method_get_string_from_utf16>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1887,7 +1905,7 @@ Converts the string to a `UTF-16 <https://en.wikipedia.org/wiki/UTF-16>`__ encod
 
 :ref:`PackedByteArray<class_PackedByteArray>` **to_utf32_buffer** **(** **)** |const|
 
-Converts the string to a `UTF-32 <https://en.wikipedia.org/wiki/UTF-32>`__ encoded :ref:`PackedByteArray<class_PackedByteArray>`.
+Converts the string to a `UTF-32 <https://en.wikipedia.org/wiki/UTF-32>`__ encoded :ref:`PackedByteArray<class_PackedByteArray>`. This is the inverse of :ref:`PackedByteArray.get_string_from_utf32<class_PackedByteArray_method_get_string_from_utf32>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1899,7 +1917,7 @@ Converts the string to a `UTF-32 <https://en.wikipedia.org/wiki/UTF-32>`__ encod
 
 :ref:`PackedByteArray<class_PackedByteArray>` **to_wchar_buffer** **(** **)** |const|
 
-Converts the string to a `wide character <https://en.wikipedia.org/wiki/Wide_character>`__ (``wchar_t``, UTF-16 on Windows, UTF-32 on other platforms) encoded :ref:`PackedByteArray<class_PackedByteArray>`.
+Converts the string to a `wide character <https://en.wikipedia.org/wiki/Wide_character>`__ (``wchar_t``, UTF-16 on Windows, UTF-32 on other platforms) encoded :ref:`PackedByteArray<class_PackedByteArray>`. This is the inverse of :ref:`PackedByteArray.get_string_from_wchar<class_PackedByteArray_method_get_string_from_wchar>`.
 
 .. rst-class:: classref-item-separator
 
@@ -2017,7 +2035,7 @@ Returns a copy of the string with all characters that are not allowed in :ref:`i
 
 :ref:`String<class_String>` **validate_node_name** **(** **)** |const|
 
-Returns a copy of the string with all characters that are not allowed in :ref:`Node.name<class_Node_property_name>` removed (``.`` ``:`` ``@`` ``/`` ``"`` ``%``).
+Returns a copy of the string with all characters that are not allowed in :ref:`Node.name<class_Node_property_name>` (``.`` ``:`` ``@`` ``/`` ``"`` ``%``) replaced with underscores.
 
 .. rst-class:: classref-item-separator
 
@@ -2211,3 +2229,4 @@ Returns a new **String** that only contains the character at ``index``. Indices 
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
