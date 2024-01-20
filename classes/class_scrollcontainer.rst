@@ -14,25 +14,21 @@ ScrollContainer
 
 **Inherited By:** :ref:`EditorInspector<class_EditorInspector>`
 
-A helper node for displaying scrollable elements such as lists.
+A container used to provide scrollbars to a child control when needed.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-A ScrollContainer node meant to contain a :ref:`Control<class_Control>` child.
-
-ScrollContainers will automatically create a scrollbar child (:ref:`HScrollBar<class_HScrollBar>`, :ref:`VScrollBar<class_VScrollBar>`, or both) when needed and will only draw the Control within the ScrollContainer area. Scrollbars will automatically be drawn at the right (for vertical) or bottom (for horizontal) and will enable dragging to move the viewable Control (and its children) within the ScrollContainer. Scrollbars will also automatically resize the grabber based on the :ref:`Control.custom_minimum_size<class_Control_property_custom_minimum_size>` of the Control relative to the ScrollContainer.
-
-Works great with a :ref:`Panel<class_Panel>` control. You can set :ref:`Control.SIZE_EXPAND<class_Control_constant_SIZE_EXPAND>` on the children's size flags, so they will upscale to the ScrollContainer's size if it's larger (scroll is invisible for the chosen dimension).
+A container used to provide a child control with scrollbars when needed. Scrollbars will automatically be drawn at the right (for vertical) or bottom (for horizontal) and will enable dragging to move the viewable Control (and its children) within the ScrollContainer. Scrollbars will also automatically resize the grabber based on the :ref:`Control.custom_minimum_size<class_Control_property_custom_minimum_size>` of the Control relative to the ScrollContainer.
 
 .. rst-class:: classref-introduction-group
 
 Tutorials
 ---------
 
-- :doc:`GUI containers <../tutorials/ui/gui_containers>`
+- :doc:`Using Containers <../tutorials/ui/gui_containers>`
 
 .. rst-class:: classref-reftable-group
 
@@ -105,7 +101,9 @@ Signals
 
 **scroll_ended** **(** **)**
 
-Emitted when scrolling stops.
+Emitted when scrolling stops when dragging the scrollable area *with a touch event*. This signal is *not* emitted when scrolling by dragging the scrollbar, scrolling with the mouse wheel or scrolling with keyboard/gamepad events.
+
+\ **Note:** This signal is only emitted on Android or iOS, or on desktop/web platforms when :ref:`ProjectSettings.input_devices/pointing/emulate_touch_from_mouse<class_ProjectSettings_property_input_devices/pointing/emulate_touch_from_mouse>` is enabled.
 
 .. rst-class:: classref-item-separator
 
@@ -117,7 +115,9 @@ Emitted when scrolling stops.
 
 **scroll_started** **(** **)**
 
-Emitted when scrolling is started.
+Emitted when scrolling starts when dragging the scrollable area w\ *ith a touch event*. This signal is *not* emitted when scrolling by dragging the scrollbar, scrolling with the mouse wheel or scrolling with keyboard/gamepad events.
+
+\ **Note:** This signal is only emitted on Android or iOS, or on desktop/web platforms when :ref:`ProjectSettings.input_devices/pointing/emulate_touch_from_mouse<class_ProjectSettings_property_input_devices/pointing/emulate_touch_from_mouse>` is enabled.
 
 .. rst-class:: classref-section-separator
 
@@ -237,9 +237,9 @@ Deadzone for touch scrolling. Lower deadzone makes the scrolling more sensitive.
 - void **set_h_scroll** **(** :ref:`int<class_int>` value **)**
 - :ref:`int<class_int>` **get_h_scroll** **(** **)**
 
-The current horizontal scroll value. 
+The current horizontal scroll value.
 
-\ **Note:** If you are setting this value in the :ref:`Node._ready<class_Node_method__ready>` function or earlier, it needs to be wrapped with :ref:`Object.set_deferred<class_Object_method_set_deferred>`, since scroll bar's :ref:`Range.max_value<class_Range_property_max_value>` is not initialized yet.
+\ **Note:** If you are setting this value in the :ref:`Node._ready<class_Node_private_method__ready>` function or earlier, it needs to be wrapped with :ref:`Object.set_deferred<class_Object_method_set_deferred>`, since scroll bar's :ref:`Range.max_value<class_Range_property_max_value>` is not initialized yet.
 
 ::
 
@@ -397,3 +397,4 @@ The background :ref:`StyleBox<class_StyleBox>` of the **ScrollContainer**.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
