@@ -306,7 +306,7 @@ The current origin of our tracking space in the virtual world. This is used by t
 - void **set_world_scale** **(** :ref:`float<class_float>` value **)**
 - :ref:`float<class_float>` **get_world_scale** **(** **)**
 
-Allows you to adjust the scale to your game's units. Most AR/VR platforms assume a scale of 1 game world unit = 1 real world meter.
+The scale of the game world compared to the real world. By default, most AR/VR platforms assume that 1 game unit corresponds to 1 real world meter.
 
 .. rst-class:: classref-section-separator
 
@@ -485,3 +485,4 @@ Removes this positional ``tracker``.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
