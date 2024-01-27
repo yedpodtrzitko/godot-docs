@@ -36,6 +36,8 @@ Properties
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                       | :ref:`application/copyright<class_EditorExportPlatformWindows_property_application/copyright>`                       |
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+   | :ref:`int<class_int>`                             | :ref:`application/export_angle<class_EditorExportPlatformWindows_property_application/export_angle>`                 |
+   +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                       | :ref:`application/file_description<class_EditorExportPlatformWindows_property_application/file_description>`         |
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                       | :ref:`application/file_version<class_EditorExportPlatformWindows_property_application/file_version>`                 |
@@ -78,7 +80,7 @@ Properties
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                       | :ref:`custom_template/release<class_EditorExportPlatformWindows_property_custom_template/release>`                   |
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
-   | :ref:`int<class_int>`                             | :ref:`debug/export_console_script<class_EditorExportPlatformWindows_property_debug/export_console_script>`           |
+   | :ref:`int<class_int>`                             | :ref:`debug/export_console_wrapper<class_EditorExportPlatformWindows_property_debug/export_console_wrapper>`         |
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                       | :ref:`ssh_remote_deploy/cleanup_script<class_EditorExportPlatformWindows_property_ssh_remote_deploy/cleanup_script>` |
    +---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
@@ -130,7 +132,7 @@ Company that produced the application. Required. See `StringFileInfo <https://le
 
 :ref:`String<class_String>` **application/console_wrapper_icon**
 
-Console wrapper icon file. If left empty, application icon is used instead.
+Console wrapper icon file. If left empty, it will fallback to :ref:`application/icon<class_EditorExportPlatformWindows_property_application/icon>`, then to :ref:`ProjectSettings.application/config/windows_native_icon<class_ProjectSettings_property_application/config/windows_native_icon>`, and lastly, :ref:`ProjectSettings.application/config/icon<class_ProjectSettings_property_application/config/icon>`.
 
 .. rst-class:: classref-item-separator
 
@@ -143,6 +145,18 @@ Console wrapper icon file. If left empty, application icon is used instead.
 :ref:`String<class_String>` **application/copyright**
 
 Copyright notice for the bundle visible to the user. Optional. See `StringFileInfo <https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block>`__.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_EditorExportPlatformWindows_property_application/export_angle:
+
+.. rst-class:: classref-property
+
+:ref:`int<class_int>` **application/export_angle**
+
+If set to ``1``, ANGLE libraries are exported with the exported application. If set to ``0``, ANGLE libraries are exported only if :ref:`ProjectSettings.rendering/gl_compatibility/driver<class_ProjectSettings_property_rendering/gl_compatibility/driver>` is set to ``"opengl3_angle"``.
 
 .. rst-class:: classref-item-separator
 
@@ -166,7 +180,7 @@ File description to be presented to users. Required. See `StringFileInfo <https:
 
 :ref:`String<class_String>` **application/file_version**
 
-Version number of the file. Required. See `StringFileInfo <https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block>`__.
+Version number of the file. Falls back to :ref:`ProjectSettings.application/config/version<class_ProjectSettings_property_application/config/version>` if left empty. See `StringFileInfo <https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block>`__.
 
 .. rst-class:: classref-item-separator
 
@@ -178,7 +192,7 @@ Version number of the file. Required. See `StringFileInfo <https://learn.microso
 
 :ref:`String<class_String>` **application/icon**
 
-Application icon file. If left empty, project icon is used instead.
+Application icon file. If left empty, it will fallback to :ref:`ProjectSettings.application/config/windows_native_icon<class_ProjectSettings_property_application/config/windows_native_icon>`, and then to :ref:`ProjectSettings.application/config/icon<class_ProjectSettings_property_application/config/icon>`.
 
 .. rst-class:: classref-item-separator
 
@@ -226,7 +240,7 @@ Name of the application. Required. See `StringFileInfo <https://learn.microsoft.
 
 :ref:`String<class_String>` **application/product_version**
 
-Application version visible to the user. Required. See `StringFileInfo <https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block>`__.
+Application version visible to the user. Falls back to :ref:`ProjectSettings.application/config/version<class_ProjectSettings_property_application/config/version>` if left empty. See `StringFileInfo <https://learn.microsoft.com/en-us/windows/win32/menurc/stringfileinfo-block>`__.
 
 .. rst-class:: classref-item-separator
 
@@ -410,11 +424,11 @@ Path to the custom export template. If left empty, default template is used.
 
 ----
 
-.. _class_EditorExportPlatformWindows_property_debug/export_console_script:
+.. _class_EditorExportPlatformWindows_property_debug/export_console_wrapper:
 
 .. rst-class:: classref-property
 
-:ref:`int<class_int>` **debug/export_console_script**
+:ref:`int<class_int>` **debug/export_console_wrapper**
 
 If ``true``, a console wrapper executable is exported alongside the main executable, which allows running the project with enabled console output.
 
@@ -576,3 +590,4 @@ If ``true``, project textures are exported in the S3TC format.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
