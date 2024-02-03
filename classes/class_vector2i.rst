@@ -10,14 +10,14 @@
 Vector2i
 ========
 
-Vector used for 2D math using integer coordinates.
+A 2D vector using integer coordinates.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-2-element structure that can be used to represent positions in 2D space or any other pair of numeric values.
+A 2-element structure that can be used to represent 2D grid coordinates or any other pair of integers.
 
 It uses integer coordinates and is therefore preferable to :ref:`Vector2<class_Vector2>` when exact precision is required. Note that the values are limited to 32 bits, and unlike :ref:`Vector2<class_Vector2>` this cannot be configured with an engine build option. Use :ref:`int<class_int>` or :ref:`PackedInt64Array<class_PackedInt64Array>` if 64-bit values are needed.
 
@@ -80,6 +80,10 @@ Methods
    | :ref:`float<class_float>`       | :ref:`aspect<class_Vector2i_method_aspect>` **(** **)** |const|                                                                        |
    +---------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Vector2i<class_Vector2i>` | :ref:`clamp<class_Vector2i_method_clamp>` **(** :ref:`Vector2i<class_Vector2i>` min, :ref:`Vector2i<class_Vector2i>` max **)** |const| |
+   +---------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`int<class_int>`           | :ref:`distance_squared_to<class_Vector2i_method_distance_squared_to>` **(** :ref:`Vector2i<class_Vector2i>` to **)** |const|           |
+   +---------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`float<class_float>`       | :ref:`distance_to<class_Vector2i_method_distance_to>` **(** :ref:`Vector2i<class_Vector2i>` to **)** |const|                           |
    +---------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`float<class_float>`       | :ref:`length<class_Vector2i_method_length>` **(** **)** |const|                                                                        |
    +---------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
@@ -182,6 +186,22 @@ Zero vector, a vector with all components set to ``0``.
 **ONE** = ``Vector2i(1, 1)``
 
 One vector, a vector with all components set to ``1``.
+
+.. _class_Vector2i_constant_MIN:
+
+.. rst-class:: classref-constant
+
+**MIN** = ``Vector2i(-2147483648, -2147483648)``
+
+Min vector, a vector with all components equal to ``INT32_MIN``. Can be used as a negative integer equivalent of :ref:`Vector2.INF<class_Vector2_constant_INF>`.
+
+.. _class_Vector2i_constant_MAX:
+
+.. rst-class:: classref-constant
+
+**MAX** = ``Vector2i(2147483647, 2147483647)``
+
+Max vector, a vector with all components equal to ``INT32_MAX``. Can be used as an integer equivalent of :ref:`Vector2.INF<class_Vector2_constant_INF>`.
 
 .. _class_Vector2i_constant_LEFT:
 
@@ -331,6 +351,32 @@ Returns the aspect ratio of this vector, the ratio of :ref:`x<class_Vector2i_pro
 :ref:`Vector2i<class_Vector2i>` **clamp** **(** :ref:`Vector2i<class_Vector2i>` min, :ref:`Vector2i<class_Vector2i>` max **)** |const|
 
 Returns a new vector with all components clamped between the components of ``min`` and ``max``, by running :ref:`@GlobalScope.clamp<class_@GlobalScope_method_clamp>` on each component.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Vector2i_method_distance_squared_to:
+
+.. rst-class:: classref-method
+
+:ref:`int<class_int>` **distance_squared_to** **(** :ref:`Vector2i<class_Vector2i>` to **)** |const|
+
+Returns the squared distance between this vector and ``to``.
+
+This method runs faster than :ref:`distance_to<class_Vector2i_method_distance_to>`, so prefer it if you need to compare vectors or need the squared distance for some formula.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Vector2i_method_distance_to:
+
+.. rst-class:: classref-method
+
+:ref:`float<class_float>` **distance_to** **(** :ref:`Vector2i<class_Vector2i>` to **)** |const|
+
+Returns the distance between this vector and ``to``.
 
 .. rst-class:: classref-item-separator
 
@@ -677,3 +723,4 @@ Returns the negative value of the **Vector2i**. This is the same as writing ``Ve
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
