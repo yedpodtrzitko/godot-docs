@@ -12,16 +12,18 @@ TreeItem
 
 **Inherits:** :ref:`Object<class_Object>`
 
-Control for a single item inside a :ref:`Tree<class_Tree>`.
+An internal control for a single item inside :ref:`Tree<class_Tree>`.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Control for a single item inside a :ref:`Tree<class_Tree>`. May have child **TreeItem**\ s and be styled as well as contain buttons.
+A single item of a :ref:`Tree<class_Tree>` control. It can contain other **TreeItem**\ s as children, which allows it to create a hierarchy. It can also contain text and buttons. **TreeItem** is not a :ref:`Node<class_Node>`, it is internal to the :ref:`Tree<class_Tree>`.
 
-You can remove a **TreeItem** by using :ref:`Object.free<class_Object_method_free>`.
+To create a **TreeItem**, use :ref:`Tree.create_item<class_Tree_method_create_item>` or :ref:`create_child<class_TreeItem_method_create_child>`. To remove a **TreeItem**, use :ref:`Object.free<class_Object_method_free>`.
+
+\ **Note:** The ID values used for buttons are 32-bit, unlike :ref:`int<class_int>` which is always 64-bit. They go from ``-2147483648`` to ``2147483647``.
 
 .. rst-class:: classref-reftable-group
 
@@ -52,6 +54,8 @@ Methods
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`add_button<class_TreeItem_method_add_button>` **(** :ref:`int<class_int>` column, :ref:`Texture2D<class_Texture2D>` button, :ref:`int<class_int>` id=-1, :ref:`bool<class_bool>` disabled=false, :ref:`String<class_String>` tooltip_text="" **)** |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                              | :ref:`add_child<class_TreeItem_method_add_child>` **(** :ref:`TreeItem<class_TreeItem>` child **)**                                                                                                                                                      |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`call_recursive<class_TreeItem_method_call_recursive>` **(** :ref:`StringName<class_StringName>` method, ... **)** |vararg|                                                                                                                         |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`clear_custom_bg_color<class_TreeItem_method_clear_custom_bg_color>` **(** :ref:`int<class_int>` column **)**                                                                                                                                       |
@@ -64,9 +68,13 @@ Methods
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`erase_button<class_TreeItem_method_erase_button>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index **)**                                                                                                                     |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`AutowrapMode<enum_TextServer_AutowrapMode>`                 | :ref:`get_autowrap_mode<class_TreeItem_method_get_autowrap_mode>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                       |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Texture2D<class_Texture2D>`                                 | :ref:`get_button<class_TreeItem_method_get_button>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index **)** |const|                                                                                                                 |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`int<class_int>`                                             | :ref:`get_button_by_id<class_TreeItem_method_get_button_by_id>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` id **)** |const|                                                                                                               |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Color<class_Color>`                                         | :ref:`get_button_color<class_TreeItem_method_get_button_color>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` id **)** |const|                                                                                                               |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`int<class_int>`                                             | :ref:`get_button_count<class_TreeItem_method_get_button_count>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                         |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -85,6 +93,8 @@ Methods
    | :ref:`Color<class_Color>`                                         | :ref:`get_custom_bg_color<class_TreeItem_method_get_custom_bg_color>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                   |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Color<class_Color>`                                         | :ref:`get_custom_color<class_TreeItem_method_get_custom_color>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                         |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Callable<class_Callable>`                                   | :ref:`get_custom_draw_callback<class_TreeItem_method_get_custom_draw_callback>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                         |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Font<class_Font>`                                           | :ref:`get_custom_font<class_TreeItem_method_get_custom_font>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                           |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -138,6 +148,8 @@ Methods
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`TextDirection<enum_Control_TextDirection>`                  | :ref:`get_text_direction<class_TreeItem_method_get_text_direction>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                     |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`OverrunBehavior<enum_TextServer_OverrunBehavior>`           | :ref:`get_text_overrun_behavior<class_TreeItem_method_get_text_overrun_behavior>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                       |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`String<class_String>`                                       | :ref:`get_tooltip_text<class_TreeItem_method_get_tooltip_text>` **(** :ref:`int<class_int>` column **)** |const|                                                                                                                                         |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`Tree<class_Tree>`                                           | :ref:`get_tree<class_TreeItem_method_get_tree>` **(** **)** |const|                                                                                                                                                                                      |
@@ -170,11 +182,15 @@ Methods
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`select<class_TreeItem_method_select>` **(** :ref:`int<class_int>` column **)**                                                                                                                                                                     |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                              | :ref:`set_autowrap_mode<class_TreeItem_method_set_autowrap_mode>` **(** :ref:`int<class_int>` column, :ref:`AutowrapMode<enum_TextServer_AutowrapMode>` autowrap_mode **)**                                                                              |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_button<class_TreeItem_method_set_button>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index, :ref:`Texture2D<class_Texture2D>` button **)**                                                                               |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_button_color<class_TreeItem_method_set_button_color>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index, :ref:`Color<class_Color>` color **)**                                                                            |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_button_disabled<class_TreeItem_method_set_button_disabled>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index, :ref:`bool<class_bool>` disabled **)**                                                                     |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                              | :ref:`set_button_tooltip_text<class_TreeItem_method_set_button_tooltip_text>` **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index, :ref:`String<class_String>` tooltip **)**                                                          |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_cell_mode<class_TreeItem_method_set_cell_mode>` **(** :ref:`int<class_int>` column, :ref:`TreeCellMode<enum_TreeItem_TreeCellMode>` mode **)**                                                                                                 |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -189,6 +205,8 @@ Methods
    | void                                                              | :ref:`set_custom_color<class_TreeItem_method_set_custom_color>` **(** :ref:`int<class_int>` column, :ref:`Color<class_Color>` color **)**                                                                                                                |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_custom_draw<class_TreeItem_method_set_custom_draw>` **(** :ref:`int<class_int>` column, :ref:`Object<class_Object>` object, :ref:`StringName<class_StringName>` callback **)**                                                                 |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                              | :ref:`set_custom_draw_callback<class_TreeItem_method_set_custom_draw_callback>` **(** :ref:`int<class_int>` column, :ref:`Callable<class_Callable>` callback **)**                                                                                       |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_custom_font<class_TreeItem_method_set_custom_font>` **(** :ref:`int<class_int>` column, :ref:`Font<class_Font>` font **)**                                                                                                                     |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -231,6 +249,8 @@ Methods
    | void                                                              | :ref:`set_text_alignment<class_TreeItem_method_set_text_alignment>` **(** :ref:`int<class_int>` column, :ref:`HorizontalAlignment<enum_@GlobalScope_HorizontalAlignment>` text_alignment **)**                                                           |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_text_direction<class_TreeItem_method_set_text_direction>` **(** :ref:`int<class_int>` column, :ref:`TextDirection<enum_Control_TextDirection>` direction **)**                                                                                 |
+   +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                              | :ref:`set_text_overrun_behavior<class_TreeItem_method_set_text_overrun_behavior>` **(** :ref:`int<class_int>` column, :ref:`OverrunBehavior<enum_TextServer_OverrunBehavior>` overrun_behavior **)**                                                     |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                              | :ref:`set_tooltip_text<class_TreeItem_method_set_tooltip_text>` **(** :ref:`int<class_int>` column, :ref:`String<class_String>` tooltip **)**                                                                                                            |
    +-------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -289,6 +309,10 @@ Cell contains an icon.
 .. rst-class:: classref-enumeration-constant
 
 :ref:`TreeCellMode<enum_TreeItem_TreeCellMode>` **CELL_MODE_CUSTOM** = ``4``
+
+.. container:: contribute
+
+	There is currently no description for this enum. Please help us by :ref:`contributing one <doc_updating_the_class_reference>`!
 
 
 
@@ -388,6 +412,18 @@ Adds a button with :ref:`Texture2D<class_Texture2D>` ``button`` at column ``colu
 
 ----
 
+.. _class_TreeItem_method_add_child:
+
+.. rst-class:: classref-method
+
+void **add_child** **(** :ref:`TreeItem<class_TreeItem>` child **)**
+
+Adds a previously unparented **TreeItem** as a direct child of this one. The ``child`` item must not be a part of any :ref:`Tree<class_Tree>` or parented to any **TreeItem**. See also :ref:`remove_child<class_TreeItem_method_remove_child>`.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_TreeItem_method_call_recursive:
 
 .. rst-class:: classref-method
@@ -462,6 +498,18 @@ Removes the button at index ``button_index`` in column ``column``.
 
 ----
 
+.. _class_TreeItem_method_get_autowrap_mode:
+
+.. rst-class:: classref-method
+
+:ref:`AutowrapMode<enum_TextServer_AutowrapMode>` **get_autowrap_mode** **(** :ref:`int<class_int>` column **)** |const|
+
+Returns the text autowrap mode in the given ``column``. By default it is :ref:`TextServer.AUTOWRAP_OFF<class_TextServer_constant_AUTOWRAP_OFF>`.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_TreeItem_method_get_button:
 
 .. rst-class:: classref-method
@@ -481,6 +529,18 @@ Returns the :ref:`Texture2D<class_Texture2D>` of the button at index ``button_in
 :ref:`int<class_int>` **get_button_by_id** **(** :ref:`int<class_int>` column, :ref:`int<class_int>` id **)** |const|
 
 Returns the button index if there is a button with ID ``id`` in column ``column``, otherwise returns -1.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TreeItem_method_get_button_color:
+
+.. rst-class:: classref-method
+
+:ref:`Color<class_Color>` **get_button_color** **(** :ref:`int<class_int>` column, :ref:`int<class_int>` id **)** |const|
+
+Returns the color of the button with ID ``id`` in column ``column``. If the specified button does not exist, returns :ref:`Color.BLACK<class_Color_constant_BLACK>`.
 
 .. rst-class:: classref-item-separator
 
@@ -591,6 +651,18 @@ Returns the custom background color of column ``column``.
 :ref:`Color<class_Color>` **get_custom_color** **(** :ref:`int<class_int>` column **)** |const|
 
 Returns the custom color of column ``column``.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TreeItem_method_get_custom_draw_callback:
+
+.. rst-class:: classref-method
+
+:ref:`Callable<class_Callable>` **get_custom_draw_callback** **(** :ref:`int<class_int>` column **)** |const|
+
+Returns the custom callback of column ``column``.
 
 .. rst-class:: classref-item-separator
 
@@ -920,6 +992,18 @@ Returns item's text base writing direction.
 
 ----
 
+.. _class_TreeItem_method_get_text_overrun_behavior:
+
+.. rst-class:: classref-method
+
+:ref:`OverrunBehavior<enum_TextServer_OverrunBehavior>` **get_text_overrun_behavior** **(** :ref:`int<class_int>` column **)** |const|
+
+Returns the clipping behavior when the text exceeds the item's bounding rectangle in the given ``column``. By default it is :ref:`TextServer.OVERRUN_TRIM_ELLIPSIS<class_TextServer_constant_OVERRUN_TRIM_ELLIPSIS>`.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_TreeItem_method_get_tooltip_text:
 
 .. rst-class:: classref-method
@@ -1102,7 +1186,9 @@ Propagates this item's checked status to its children and parents for the given 
 
 void **remove_child** **(** :ref:`TreeItem<class_TreeItem>` child **)**
 
-Removes the given child **TreeItem** and all its children from the :ref:`Tree<class_Tree>`. Note that it doesn't free the item from memory, so it can be reused later. To completely remove a **TreeItem** use :ref:`Object.free<class_Object_method_free>`.
+Removes the given child **TreeItem** and all its children from the :ref:`Tree<class_Tree>`. Note that it doesn't free the item from memory, so it can be reused later (see :ref:`add_child<class_TreeItem_method_add_child>`). To completely remove a **TreeItem** use :ref:`Object.free<class_Object_method_free>`.
+
+\ **Note:** If you want to move a child from one :ref:`Tree<class_Tree>` to another, then instead of removing and adding it manually you can use :ref:`move_before<class_TreeItem_method_move_before>` or :ref:`move_after<class_TreeItem_method_move_after>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1115,6 +1201,18 @@ Removes the given child **TreeItem** and all its children from the :ref:`Tree<cl
 void **select** **(** :ref:`int<class_int>` column **)**
 
 Selects the given ``column``.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TreeItem_method_set_autowrap_mode:
+
+.. rst-class:: classref-method
+
+void **set_autowrap_mode** **(** :ref:`int<class_int>` column, :ref:`AutowrapMode<enum_TextServer_AutowrapMode>` autowrap_mode **)**
+
+Sets the autowrap mode in the given ``column``. If set to something other than :ref:`TextServer.AUTOWRAP_OFF<class_TextServer_constant_AUTOWRAP_OFF>`, the text gets wrapped inside the cell's bounding rectangle.
 
 .. rst-class:: classref-item-separator
 
@@ -1151,6 +1249,18 @@ Sets the given column's button color at index ``button_index`` to ``color``.
 void **set_button_disabled** **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index, :ref:`bool<class_bool>` disabled **)**
 
 If ``true``, disables the button at index ``button_index`` in the given ``column``.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TreeItem_method_set_button_tooltip_text:
+
+.. rst-class:: classref-method
+
+void **set_button_tooltip_text** **(** :ref:`int<class_int>` column, :ref:`int<class_int>` button_index, :ref:`String<class_String>` tooltip **)**
+
+Sets the tooltip text for the button at index ``button_index`` in the given ``column``.
 
 .. rst-class:: classref-item-separator
 
@@ -1237,6 +1347,22 @@ Sets the given column's custom color.
 void **set_custom_draw** **(** :ref:`int<class_int>` column, :ref:`Object<class_Object>` object, :ref:`StringName<class_StringName>` callback **)**
 
 Sets the given column's custom draw callback to ``callback`` method on ``object``.
+
+The ``callback`` should accept two arguments: the **TreeItem** that is drawn and its position and size as a :ref:`Rect2<class_Rect2>`.
+
+\ *Deprecated.* Use :ref:`set_custom_draw_callback<class_TreeItem_method_set_custom_draw_callback>` instead.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_TreeItem_method_set_custom_draw_callback:
+
+.. rst-class:: classref-method
+
+void **set_custom_draw_callback** **(** :ref:`int<class_int>` column, :ref:`Callable<class_Callable>` callback **)**
+
+Sets the given column's custom draw callback. Use an empty :ref:`Callable<class_Callable>` (``Callable()``) to clear the custom callback.
 
 The ``callback`` should accept two arguments: the **TreeItem** that is drawn and its position and size as a :ref:`Rect2<class_Rect2>`.
 
@@ -1506,6 +1632,18 @@ Sets item's text base writing direction.
 
 ----
 
+.. _class_TreeItem_method_set_text_overrun_behavior:
+
+.. rst-class:: classref-method
+
+void **set_text_overrun_behavior** **(** :ref:`int<class_int>` column, :ref:`OverrunBehavior<enum_TextServer_OverrunBehavior>` overrun_behavior **)**
+
+Sets the clipping behavior when the text exceeds the item's bounding rectangle in the given ``column``.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_TreeItem_method_set_tooltip_text:
 
 .. rst-class:: classref-method
@@ -1524,9 +1662,7 @@ Sets the given column's tooltip text.
 
 void **uncollapse_tree** **(** **)**
 
-.. container:: contribute
-
-	There is currently no description for this method. Please help us by :ref:`contributing one <doc_updating_the_class_reference>`!
+Uncollapses all **TreeItem**\ s necessary to reveal this **TreeItem**, i.e. all ancestor **TreeItem**\ s.
 
 .. |virtual| replace:: :abbr:`virtual (This method should typically be overridden by the user to have any effect.)`
 .. |const| replace:: :abbr:`const (This method has no side effects. It doesn't modify any of the instance's member variables.)`
@@ -1534,3 +1670,4 @@ void **uncollapse_tree** **(** **)**
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
