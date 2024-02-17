@@ -12,16 +12,16 @@ AStarGrid2D
 
 **Inherits:** :ref:`RefCounted<class_RefCounted>` **<** :ref:`Object<class_Object>`
 
-A\* (or "A-Star") pathfinding tailored to find the shortest paths on 2D grids.
+An implementation of A\* for finding the shortest path between two points on a partial 2D grid.
 
 .. rst-class:: classref-introduction-group
 
 Description
 -----------
 
-Compared to :ref:`AStar2D<class_AStar2D>` you don't need to manually create points or connect them together. It also supports multiple type of heuristics and modes for diagonal movement. This class also provides a jumping mode which is faster to calculate than without it in the :ref:`AStar2D<class_AStar2D>` class.
+**AStarGrid2D** is a variant of :ref:`AStar2D<class_AStar2D>` that is specialized for partial 2D grids. It is simpler to use because it doesn't require you to manually create points and connect them together. This class also supports multiple types of heuristics, modes for diagonal movement, and a jumping mode to speed up calculations.
 
-In contrast to :ref:`AStar2D<class_AStar2D>`, you only need set the :ref:`region<class_AStarGrid2D_property_region>` of the grid, optionally set the :ref:`cell_size<class_AStarGrid2D_property_cell_size>` and then call the :ref:`update<class_AStarGrid2D_method_update>` method:
+To use **AStarGrid2D**, you only need to set the :ref:`region<class_AStarGrid2D_property_region>` of the grid, optionally set the :ref:`cell_size<class_AStarGrid2D_property_cell_size>`, and then call the :ref:`update<class_AStarGrid2D_method_update>` method:
 
 
 .. tabs::
@@ -38,13 +38,15 @@ In contrast to :ref:`AStar2D<class_AStar2D>`, you only need set the :ref:`region
  .. code-tab:: csharp
 
     AStarGrid2D astarGrid = new AStarGrid2D();
-    astarGrid.Size = new Vector2I(32, 32);
+    astarGrid.Region = new Rect2I(0, 0, 32, 32);
     astarGrid.CellSize = new Vector2I(16, 16);
     astarGrid.Update();
     GD.Print(astarGrid.GetIdPath(Vector2I.Zero, new Vector2I(3, 4))); // prints (0, 0), (1, 1), (2, 2), (3, 3), (3, 4)
     GD.Print(astarGrid.GetPointPath(Vector2I.Zero, new Vector2I(3, 4))); // prints (0, 0), (16, 16), (32, 32), (48, 48), (48, 64)
 
 
+
+To remove a point from the pathfinding grid, it must be set as "solid" with :ref:`set_point_solid<class_AStarGrid2D_method_set_point_solid>`.
 
 .. rst-class:: classref-reftable-group
 
@@ -54,6 +56,8 @@ Properties
 .. table::
    :widths: auto
 
+   +----------------------------------------------------+------------------------------------------------------------------------------------------+------------------------+
+   | :ref:`CellShape<enum_AStarGrid2D_CellShape>`       | :ref:`cell_shape<class_AStarGrid2D_property_cell_shape>`                                 | ``0``                  |
    +----------------------------------------------------+------------------------------------------------------------------------------------------+------------------------+
    | :ref:`Vector2<class_Vector2>`                      | :ref:`cell_size<class_AStarGrid2D_property_cell_size>`                                   | ``Vector2(1, 1)``      |
    +----------------------------------------------------+------------------------------------------------------------------------------------------+------------------------+
@@ -80,35 +84,39 @@ Methods
 .. table::
    :widths: auto
 
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`float<class_float>`                           | :ref:`_compute_cost<class_AStarGrid2D_method__compute_cost>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)** |virtual| |const|   |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`float<class_float>`                           | :ref:`_estimate_cost<class_AStarGrid2D_method__estimate_cost>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)** |virtual| |const| |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | void                                                | :ref:`clear<class_AStarGrid2D_method_clear>` **(** **)**                                                                                                                    |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Vector2i[]<class_Vector2i>`                   | :ref:`get_id_path<class_AStarGrid2D_method_get_id_path>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)**                         |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`PackedVector2Array<class_PackedVector2Array>` | :ref:`get_point_path<class_AStarGrid2D_method_get_point_path>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)**                   |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`Vector2<class_Vector2>`                       | :ref:`get_point_position<class_AStarGrid2D_method_get_point_position>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                               |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`float<class_float>`                           | :ref:`get_point_weight_scale<class_AStarGrid2D_method_get_point_weight_scale>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                       |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`bool<class_bool>`                             | :ref:`is_dirty<class_AStarGrid2D_method_is_dirty>` **(** **)** |const|                                                                                                      |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`bool<class_bool>`                             | :ref:`is_in_bounds<class_AStarGrid2D_method_is_in_bounds>` **(** :ref:`int<class_int>` x, :ref:`int<class_int>` y **)** |const|                                             |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`bool<class_bool>`                             | :ref:`is_in_boundsv<class_AStarGrid2D_method_is_in_boundsv>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                                         |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`bool<class_bool>`                             | :ref:`is_point_solid<class_AStarGrid2D_method_is_point_solid>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                                       |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | void                                                | :ref:`set_point_solid<class_AStarGrid2D_method_set_point_solid>` **(** :ref:`Vector2i<class_Vector2i>` id, :ref:`bool<class_bool>` solid=true **)**                         |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | void                                                | :ref:`set_point_weight_scale<class_AStarGrid2D_method_set_point_weight_scale>` **(** :ref:`Vector2i<class_Vector2i>` id, :ref:`float<class_float>` weight_scale **)**       |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | void                                                | :ref:`update<class_AStarGrid2D_method_update>` **(** **)**                                                                                                                  |
-   +-----------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`float<class_float>`                           | :ref:`_compute_cost<class_AStarGrid2D_private_method__compute_cost>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)** |virtual| |const|   |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`float<class_float>`                           | :ref:`_estimate_cost<class_AStarGrid2D_private_method__estimate_cost>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)** |virtual| |const| |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`clear<class_AStarGrid2D_method_clear>` **(** **)**                                                                                                                            |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`fill_solid_region<class_AStarGrid2D_method_fill_solid_region>` **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`bool<class_bool>` solid=true **)**                             |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`fill_weight_scale_region<class_AStarGrid2D_method_fill_weight_scale_region>` **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`float<class_float>` weight_scale **)**           |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Vector2i[]<class_Vector2i>`                   | :ref:`get_id_path<class_AStarGrid2D_method_get_id_path>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)**                                 |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`PackedVector2Array<class_PackedVector2Array>` | :ref:`get_point_path<class_AStarGrid2D_method_get_point_path>` **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)**                           |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Vector2<class_Vector2>`                       | :ref:`get_point_position<class_AStarGrid2D_method_get_point_position>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                                       |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`float<class_float>`                           | :ref:`get_point_weight_scale<class_AStarGrid2D_method_get_point_weight_scale>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                               |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`bool<class_bool>`                             | :ref:`is_dirty<class_AStarGrid2D_method_is_dirty>` **(** **)** |const|                                                                                                              |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`bool<class_bool>`                             | :ref:`is_in_bounds<class_AStarGrid2D_method_is_in_bounds>` **(** :ref:`int<class_int>` x, :ref:`int<class_int>` y **)** |const|                                                     |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`bool<class_bool>`                             | :ref:`is_in_boundsv<class_AStarGrid2D_method_is_in_boundsv>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                                                 |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`bool<class_bool>`                             | :ref:`is_point_solid<class_AStarGrid2D_method_is_point_solid>` **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|                                                               |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`set_point_solid<class_AStarGrid2D_method_set_point_solid>` **(** :ref:`Vector2i<class_Vector2i>` id, :ref:`bool<class_bool>` solid=true **)**                                 |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`set_point_weight_scale<class_AStarGrid2D_method_set_point_weight_scale>` **(** :ref:`Vector2i<class_Vector2i>` id, :ref:`float<class_float>` weight_scale **)**               |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`update<class_AStarGrid2D_method_update>` **(** **)**                                                                                                                          |
+   +-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 .. rst-class:: classref-section-separator
 
@@ -244,6 +252,48 @@ The pathfinding algorithm will avoid using diagonals if any obstacle has been pl
 
 Represents the size of the :ref:`DiagonalMode<enum_AStarGrid2D_DiagonalMode>` enum.
 
+.. rst-class:: classref-item-separator
+
+----
+
+.. _enum_AStarGrid2D_CellShape:
+
+.. rst-class:: classref-enumeration
+
+enum **CellShape**:
+
+.. _class_AStarGrid2D_constant_CELL_SHAPE_SQUARE:
+
+.. rst-class:: classref-enumeration-constant
+
+:ref:`CellShape<enum_AStarGrid2D_CellShape>` **CELL_SHAPE_SQUARE** = ``0``
+
+Rectangular cell shape.
+
+.. _class_AStarGrid2D_constant_CELL_SHAPE_ISOMETRIC_RIGHT:
+
+.. rst-class:: classref-enumeration-constant
+
+:ref:`CellShape<enum_AStarGrid2D_CellShape>` **CELL_SHAPE_ISOMETRIC_RIGHT** = ``1``
+
+Diamond cell shape (for isometric look). Cell coordinates layout where the horizontal axis goes up-right, and the vertical one goes down-right.
+
+.. _class_AStarGrid2D_constant_CELL_SHAPE_ISOMETRIC_DOWN:
+
+.. rst-class:: classref-enumeration-constant
+
+:ref:`CellShape<enum_AStarGrid2D_CellShape>` **CELL_SHAPE_ISOMETRIC_DOWN** = ``2``
+
+Diamond cell shape (for isometric look). Cell coordinates layout where the horizontal axis goes down-right, and the vertical one goes down-left.
+
+.. _class_AStarGrid2D_constant_CELL_SHAPE_MAX:
+
+.. rst-class:: classref-enumeration-constant
+
+:ref:`CellShape<enum_AStarGrid2D_CellShape>` **CELL_SHAPE_MAX** = ``3``
+
+Represents the size of the :ref:`CellShape<enum_AStarGrid2D_CellShape>` enum.
+
 .. rst-class:: classref-section-separator
 
 ----
@@ -252,6 +302,23 @@ Represents the size of the :ref:`DiagonalMode<enum_AStarGrid2D_DiagonalMode>` en
 
 Property Descriptions
 ---------------------
+
+.. _class_AStarGrid2D_property_cell_shape:
+
+.. rst-class:: classref-property
+
+:ref:`CellShape<enum_AStarGrid2D_CellShape>` **cell_shape** = ``0``
+
+.. rst-class:: classref-property-setget
+
+- void **set_cell_shape** **(** :ref:`CellShape<enum_AStarGrid2D_CellShape>` value **)**
+- :ref:`CellShape<enum_AStarGrid2D_CellShape>` **get_cell_shape** **(** **)**
+
+The cell shape. Affects how the positions are placed in the grid. If changed, :ref:`update<class_AStarGrid2D_method_update>` needs to be called before finding the next path.
+
+.. rst-class:: classref-item-separator
+
+----
 
 .. _class_AStarGrid2D_property_cell_size:
 
@@ -281,7 +348,7 @@ The size of the point cell which will be applied to calculate the resulting poin
 - void **set_default_compute_heuristic** **(** :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` value **)**
 - :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` **get_default_compute_heuristic** **(** **)**
 
-The default :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` which will be used to calculate the cost between two points if :ref:`_compute_cost<class_AStarGrid2D_method__compute_cost>` was not overridden.
+The default :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` which will be used to calculate the cost between two points if :ref:`_compute_cost<class_AStarGrid2D_private_method__compute_cost>` was not overridden.
 
 .. rst-class:: classref-item-separator
 
@@ -298,7 +365,7 @@ The default :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` which will be used to c
 - void **set_default_estimate_heuristic** **(** :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` value **)**
 - :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` **get_default_estimate_heuristic** **(** **)**
 
-The default :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` which will be used to calculate the cost between the point and the end point if :ref:`_estimate_cost<class_AStarGrid2D_method__estimate_cost>` was not overridden.
+The default :ref:`Heuristic<enum_AStarGrid2D_Heuristic>` which will be used to calculate the cost between the point and the end point if :ref:`_estimate_cost<class_AStarGrid2D_private_method__estimate_cost>` was not overridden.
 
 .. rst-class:: classref-item-separator
 
@@ -385,9 +452,9 @@ The region of grid cells available for pathfinding. If changed, :ref:`update<cla
 - void **set_size** **(** :ref:`Vector2i<class_Vector2i>` value **)**
 - :ref:`Vector2i<class_Vector2i>` **get_size** **(** **)**
 
-The size of the grid (number of cells of size :ref:`cell_size<class_AStarGrid2D_property_cell_size>` on each axis). If changed, :ref:`update<class_AStarGrid2D_method_update>` needs to be called before finding the next path.
+**Deprecated:** Use :ref:`region<class_AStarGrid2D_property_region>` instead.
 
-\ **Note:** This property is deprecated, use :ref:`region<class_AStarGrid2D_property_region>` instead.
+The size of the grid (number of cells of size :ref:`cell_size<class_AStarGrid2D_property_cell_size>` on each axis). If changed, :ref:`update<class_AStarGrid2D_method_update>` needs to be called before finding the next path.
 
 .. rst-class:: classref-section-separator
 
@@ -398,7 +465,7 @@ The size of the grid (number of cells of size :ref:`cell_size<class_AStarGrid2D_
 Method Descriptions
 -------------------
 
-.. _class_AStarGrid2D_method__compute_cost:
+.. _class_AStarGrid2D_private_method__compute_cost:
 
 .. rst-class:: classref-method
 
@@ -406,13 +473,13 @@ Method Descriptions
 
 Called when computing the cost between two connected points.
 
-Note that this function is hidden in the default ``AStarGrid2D`` class.
+Note that this function is hidden in the default **AStarGrid2D** class.
 
 .. rst-class:: classref-item-separator
 
 ----
 
-.. _class_AStarGrid2D_method__estimate_cost:
+.. _class_AStarGrid2D_private_method__estimate_cost:
 
 .. rst-class:: classref-method
 
@@ -420,7 +487,7 @@ Note that this function is hidden in the default ``AStarGrid2D`` class.
 
 Called when estimating the cost between a point and the path's ending point.
 
-Note that this function is hidden in the default ``AStarGrid2D`` class.
+Note that this function is hidden in the default **AStarGrid2D** class.
 
 .. rst-class:: classref-item-separator
 
@@ -433,6 +500,34 @@ Note that this function is hidden in the default ``AStarGrid2D`` class.
 void **clear** **(** **)**
 
 Clears the grid and sets the :ref:`region<class_AStarGrid2D_property_region>` to ``Rect2i(0, 0, 0, 0)``.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_AStarGrid2D_method_fill_solid_region:
+
+.. rst-class:: classref-method
+
+void **fill_solid_region** **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`bool<class_bool>` solid=true **)**
+
+Fills the given ``region`` on the grid with the specified value for the solid flag.
+
+\ **Note:** Calling :ref:`update<class_AStarGrid2D_method_update>` is not needed after the call of this function.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_AStarGrid2D_method_fill_weight_scale_region:
+
+.. rst-class:: classref-method
+
+void **fill_weight_scale_region** **(** :ref:`Rect2i<class_Rect2i>` region, :ref:`float<class_float>` weight_scale **)**
+
+Fills the given ``region`` on the grid with the specified value for the weight scale.
+
+\ **Note:** Calling :ref:`update<class_AStarGrid2D_method_update>` is not needed after the call of this function.
 
 .. rst-class:: classref-item-separator
 
@@ -456,7 +551,7 @@ Returns an array with the IDs of the points that form the path found by AStar2D 
 
 :ref:`PackedVector2Array<class_PackedVector2Array>` **get_point_path** **(** :ref:`Vector2i<class_Vector2i>` from_id, :ref:`Vector2i<class_Vector2i>` to_id **)**
 
-Returns an array with the points that are in the path found by AStarGrid2D between the given points. The array is ordered from the starting point to the ending point of the path.
+Returns an array with the points that are in the path found by **AStarGrid2D** between the given points. The array is ordered from the starting point to the ending point of the path.
 
 \ **Note:** This method is not thread-safe. If called from a :ref:`Thread<class_Thread>`, it will return an empty :ref:`PackedVector3Array<class_PackedVector3Array>` and will print an error message.
 
@@ -506,7 +601,7 @@ Indicates that the grid parameters were changed and :ref:`update<class_AStarGrid
 
 :ref:`bool<class_bool>` **is_in_bounds** **(** :ref:`int<class_int>` x, :ref:`int<class_int>` y **)** |const|
 
-Returns ``true`` if the ``x`` and ``y`` is a valid grid coordinate (id).
+Returns ``true`` if the ``x`` and ``y`` is a valid grid coordinate (id), i.e. if it is inside :ref:`region<class_AStarGrid2D_property_region>`. Equivalent to ``region.has_point(Vector2i(x, y))``.
 
 .. rst-class:: classref-item-separator
 
@@ -518,7 +613,7 @@ Returns ``true`` if the ``x`` and ``y`` is a valid grid coordinate (id).
 
 :ref:`bool<class_bool>` **is_in_boundsv** **(** :ref:`Vector2i<class_Vector2i>` id **)** |const|
 
-Returns ``true`` if the ``id`` vector is a valid grid coordinate.
+Returns ``true`` if the ``id`` vector is a valid grid coordinate, i.e. if it is inside :ref:`region<class_AStarGrid2D_property_region>`. Equivalent to ``region.has_point(id)``.
 
 .. rst-class:: classref-item-separator
 
@@ -556,7 +651,7 @@ Disables or enables the specified point for pathfinding. Useful for making an ob
 
 void **set_point_weight_scale** **(** :ref:`Vector2i<class_Vector2i>` id, :ref:`float<class_float>` weight_scale **)**
 
-Sets the ``weight_scale`` for the point with the given ``id``. The ``weight_scale`` is multiplied by the result of :ref:`_compute_cost<class_AStarGrid2D_method__compute_cost>` when determining the overall cost of traveling across a segment from a neighboring point to this point.
+Sets the ``weight_scale`` for the point with the given ``id``. The ``weight_scale`` is multiplied by the result of :ref:`_compute_cost<class_AStarGrid2D_private_method__compute_cost>` when determining the overall cost of traveling across a segment from a neighboring point to this point.
 
 \ **Note:** Calling :ref:`update<class_AStarGrid2D_method_update>` is not needed after the call of this function.
 
@@ -580,3 +675,4 @@ Updates the internal state of the grid according to the parameters to prepare it
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`

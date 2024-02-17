@@ -10,6 +10,8 @@
 SkeletonModification2DFABRIK
 ============================
 
+**Experimental:** This class may be changed or removed in future versions.
+
 **Inherits:** :ref:`SkeletonModification2D<class_SkeletonModification2D>` **<** :ref:`Resource<class_Resource>` **<** :ref:`RefCounted<class_RefCounted>` **<** :ref:`Object<class_Object>`
 
 A modification that uses FABRIK to manipulate a series of :ref:`Bone2D<class_Bone2D>` nodes to reach a target.
@@ -217,3 +219,4 @@ Sets whether the joint at ``joint_idx`` will use the target node's rotation rath
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
