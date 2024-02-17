@@ -67,6 +67,8 @@ Properties
    +------------------------------------------------------+----------------------------------------------------------------------------------+-------------------------+
    | :ref:`Vector3<class_Vector3>`                        | :ref:`origin_offset<class_ReflectionProbe_property_origin_offset>`               | ``Vector3(0, 0, 0)``    |
    +------------------------------------------------------+----------------------------------------------------------------------------------+-------------------------+
+   | :ref:`int<class_int>`                                | :ref:`reflection_mask<class_ReflectionProbe_property_reflection_mask>`           | ``1048575``             |
+   +------------------------------------------------------+----------------------------------------------------------------------------------+-------------------------+
    | :ref:`Vector3<class_Vector3>`                        | :ref:`size<class_ReflectionProbe_property_size>`                                 | ``Vector3(20, 20, 20)`` |
    +------------------------------------------------------+----------------------------------------------------------------------------------+-------------------------+
    | :ref:`UpdateMode<enum_ReflectionProbe_UpdateMode>`   | :ref:`update_mode<class_ReflectionProbe_property_update_mode>`                   | ``0``                   |
@@ -227,7 +229,9 @@ If ``true``, enables box projection. This makes reflections look more correct in
 - void **set_cull_mask** **(** :ref:`int<class_int>` value **)**
 - :ref:`int<class_int>` **get_cull_mask** **(** **)**
 
-Sets the cull mask which determines what objects are drawn by this probe. Every :ref:`VisualInstance3D<class_VisualInstance3D>` with a layer included in this cull mask will be rendered by the probe. To improve performance, it is best to only include large objects which are likely to take up a lot of space in the reflection.
+Sets the cull mask which determines what objects are drawn by this probe. Every :ref:`VisualInstance3D<class_VisualInstance3D>` with a layer included in this cull mask will be rendered by the probe. It is best to only include large objects which are likely to take up a lot of space in the reflection in order to save on rendering cost.
+
+This can also be used to prevent an object from reflecting upon itself (for instance, a **ReflectionProbe** centered on a vehicle).
 
 .. rst-class:: classref-item-separator
 
@@ -339,6 +343,23 @@ Sets the origin offset to be used when this **ReflectionProbe** is in :ref:`box_
 
 ----
 
+.. _class_ReflectionProbe_property_reflection_mask:
+
+.. rst-class:: classref-property
+
+:ref:`int<class_int>` **reflection_mask** = ``1048575``
+
+.. rst-class:: classref-property-setget
+
+- void **set_reflection_mask** **(** :ref:`int<class_int>` value **)**
+- :ref:`int<class_int>` **get_reflection_mask** **(** **)**
+
+Sets the reflection mask which determines what objects have reflections applied from this probe. Every :ref:`VisualInstance3D<class_VisualInstance3D>` with a layer included in this reflection mask will have reflections applied from this probe. See also :ref:`cull_mask<class_ReflectionProbe_property_cull_mask>`, which can be used to exclude objects from appearing in the reflection while still making them affected by the **ReflectionProbe**.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_ReflectionProbe_property_size:
 
 .. rst-class:: classref-property
@@ -377,3 +398,4 @@ Sets how frequently the **ReflectionProbe** is updated. Can be :ref:`UPDATE_ONCE
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`

@@ -14,7 +14,7 @@ Window
 
 **Inherited By:** :ref:`AcceptDialog<class_AcceptDialog>`, :ref:`Popup<class_Popup>`
 
-Base class for all windows.
+Base class for all windows, dialogs, and popups.
 
 .. rst-class:: classref-introduction-group
 
@@ -23,7 +23,7 @@ Description
 
 A node that creates a window. The window can either be a native system window or embedded inside another **Window** (see :ref:`Viewport.gui_embed_subwindows<class_Viewport_property_gui_embed_subwindows>`).
 
-At runtime, **Window**\ s will not close automatically when requested. You need to handle it manually using :ref:`close_requested<class_Window_signal_close_requested>` (this applies both to clicking close button and clicking outside popup).
+At runtime, **Window**\ s will not close automatically when requested. You need to handle it manually using the :ref:`close_requested<class_Window_signal_close_requested>` signal (this applies both to pressing the close button and clicking outside of a popup).
 
 .. rst-class:: classref-reftable-group
 
@@ -48,6 +48,8 @@ Properties
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`Vector2i<class_Vector2i>`                                 | :ref:`content_scale_size<class_Window_property_content_scale_size>`               | ``Vector2i(0, 0)``       |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
+   | :ref:`ContentScaleStretch<enum_Window_ContentScaleStretch>`     | :ref:`content_scale_stretch<class_Window_property_content_scale_stretch>`         | ``0``                    |
+   +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`int<class_int>`                                           | :ref:`current_screen<class_Window_property_current_screen>`                       |                          |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`bool<class_bool>`                                         | :ref:`exclusive<class_Window_property_exclusive>`                                 | ``false``                |
@@ -55,6 +57,8 @@ Properties
    | :ref:`bool<class_bool>`                                         | :ref:`extend_to_title<class_Window_property_extend_to_title>`                     | ``false``                |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`WindowInitialPosition<enum_Window_WindowInitialPosition>` | :ref:`initial_position<class_Window_property_initial_position>`                   | ``0``                    |
+   +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
+   | :ref:`bool<class_bool>`                                         | :ref:`keep_title_visible<class_Window_property_keep_title_visible>`               | ``false``                |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`Vector2i<class_Vector2i>`                                 | :ref:`max_size<class_Window_property_max_size>`                                   | ``Vector2i(0, 0)``       |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
@@ -80,6 +84,8 @@ Properties
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`bool<class_bool>`                                         | :ref:`transient<class_Window_property_transient>`                                 | ``false``                |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
+   | :ref:`bool<class_bool>`                                         | :ref:`transient_to_focused<class_Window_property_transient_to_focused>`           | ``false``                |
+   +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`bool<class_bool>`                                         | :ref:`transparent<class_Window_property_transparent>`                             | ``false``                |
    +-----------------------------------------------------------------+-----------------------------------------------------------------------------------+--------------------------+
    | :ref:`bool<class_bool>`                                         | :ref:`unfocusable<class_Window_property_unfocusable>`                             | ``false``                |
@@ -99,6 +105,8 @@ Methods
 .. table::
    :widths: auto
 
+   +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`Vector2<class_Vector2>`                       | :ref:`_get_contents_minimum_size<class_Window_private_method__get_contents_minimum_size>` **(** **)** |virtual| |const|                                                                                                                            |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                | :ref:`add_theme_color_override<class_Window_method_add_theme_color_override>` **(** :ref:`StringName<class_StringName>` name, :ref:`Color<class_Color>` color **)**                                                                                |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -148,6 +156,8 @@ Methods
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`StyleBox<class_StyleBox>`                     | :ref:`get_theme_stylebox<class_Window_method_get_theme_stylebox>` **(** :ref:`StringName<class_StringName>` name, :ref:`StringName<class_StringName>` theme_type="" **)** |const|                                                                  |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`int<class_int>`                               | :ref:`get_window_id<class_Window_method_get_window_id>` **(** **)** |const|                                                                                                                                                                        |
+   +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                | :ref:`grab_focus<class_Window_method_grab_focus>` **(** **)**                                                                                                                                                                                      |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`bool<class_bool>`                             | :ref:`has_focus<class_Window_method_has_focus>` **(** **)** |const|                                                                                                                                                                                |
@@ -185,6 +195,8 @@ Methods
    | :ref:`bool<class_bool>`                             | :ref:`is_maximize_allowed<class_Window_method_is_maximize_allowed>` **(** **)** |const|                                                                                                                                                            |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`bool<class_bool>`                             | :ref:`is_using_font_oversampling<class_Window_method_is_using_font_oversampling>` **(** **)** |const|                                                                                                                                              |
+   +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | void                                                | :ref:`move_to_center<class_Window_method_move_to_center>` **(** **)**                                                                                                                                                                              |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | void                                                | :ref:`move_to_foreground<class_Window_method_move_to_foreground>` **(** **)**                                                                                                                                                                      |
    +-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -247,31 +259,33 @@ Theme Properties
 .. table::
    :widths: auto
 
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`Color<class_Color>`         | :ref:`title_color<class_Window_theme_color_title_color>`                       | ``Color(0.875, 0.875, 0.875, 1)`` |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`Color<class_Color>`         | :ref:`title_outline_modulate<class_Window_theme_color_title_outline_modulate>` | ``Color(1, 1, 1, 1)``             |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`int<class_int>`             | :ref:`close_h_offset<class_Window_theme_constant_close_h_offset>`              | ``18``                            |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`int<class_int>`             | :ref:`close_v_offset<class_Window_theme_constant_close_v_offset>`              | ``24``                            |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`int<class_int>`             | :ref:`resize_margin<class_Window_theme_constant_resize_margin>`                | ``4``                             |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`int<class_int>`             | :ref:`title_height<class_Window_theme_constant_title_height>`                  | ``36``                            |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`int<class_int>`             | :ref:`title_outline_size<class_Window_theme_constant_title_outline_size>`      | ``0``                             |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`Font<class_Font>`           | :ref:`title_font<class_Window_theme_font_title_font>`                          |                                   |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`int<class_int>`             | :ref:`title_font_size<class_Window_theme_font_size_title_font_size>`           |                                   |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`Texture2D<class_Texture2D>` | :ref:`close<class_Window_theme_icon_close>`                                    |                                   |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`Texture2D<class_Texture2D>` | :ref:`close_pressed<class_Window_theme_icon_close_pressed>`                    |                                   |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
-   | :ref:`StyleBox<class_StyleBox>`   | :ref:`embedded_border<class_Window_theme_style_embedded_border>`               |                                   |
-   +-----------------------------------+--------------------------------------------------------------------------------+-----------------------------------+
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`Color<class_Color>`         | :ref:`title_color<class_Window_theme_color_title_color>`                             | ``Color(0.875, 0.875, 0.875, 1)`` |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`Color<class_Color>`         | :ref:`title_outline_modulate<class_Window_theme_color_title_outline_modulate>`       | ``Color(1, 1, 1, 1)``             |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`close_h_offset<class_Window_theme_constant_close_h_offset>`                    | ``18``                            |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`close_v_offset<class_Window_theme_constant_close_v_offset>`                    | ``24``                            |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`resize_margin<class_Window_theme_constant_resize_margin>`                      | ``4``                             |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`title_height<class_Window_theme_constant_title_height>`                        | ``36``                            |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`title_outline_size<class_Window_theme_constant_title_outline_size>`            | ``0``                             |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`Font<class_Font>`           | :ref:`title_font<class_Window_theme_font_title_font>`                                |                                   |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`int<class_int>`             | :ref:`title_font_size<class_Window_theme_font_size_title_font_size>`                 |                                   |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`Texture2D<class_Texture2D>` | :ref:`close<class_Window_theme_icon_close>`                                          |                                   |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`Texture2D<class_Texture2D>` | :ref:`close_pressed<class_Window_theme_icon_close_pressed>`                          |                                   |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`StyleBox<class_StyleBox>`   | :ref:`embedded_border<class_Window_theme_style_embedded_border>`                     |                                   |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
+   | :ref:`StyleBox<class_StyleBox>`   | :ref:`embedded_unfocused_border<class_Window_theme_style_embedded_unfocused_border>` |                                   |
+   +-----------------------------------+--------------------------------------------------------------------------------------+-----------------------------------+
 
 .. rst-class:: classref-section-separator
 
@@ -330,7 +344,7 @@ Emitted when the **Window**'s DPI changes as a result of OS-level changes (e.g. 
 
 Emitted when files are dragged from the OS file manager and dropped in the game window. The argument is a list of file paths.
 
-Note that this method only works with non-embedded windows, i.e. the main window and **Window**-derived nodes when :ref:`Viewport.gui_embed_subwindows<class_Viewport_property_gui_embed_subwindows>` is disabled in the main viewport.
+Note that this method only works with native windows, i.e. the main window and **Window**-derived nodes when :ref:`Viewport.gui_embed_subwindows<class_Viewport_property_gui_embed_subwindows>` is disabled in the main viewport.
 
 Example usage:
 
@@ -388,7 +402,7 @@ Emitted when a go back request is sent (e.g. pressing the "Back" button on Andro
 
 **mouse_entered** **(** **)**
 
-Emitted when the mouse cursor enters the **Window**'s area, regardless if it's currently focused or not.
+Emitted when the mouse cursor enters the **Window**'s visible area, that is not occluded behind other :ref:`Control<class_Control>`\ s or windows, provided its :ref:`Viewport.gui_disable_input<class_Viewport_property_gui_disable_input>` is ``false`` and regardless if it's currently focused or not.
 
 .. rst-class:: classref-item-separator
 
@@ -400,7 +414,7 @@ Emitted when the mouse cursor enters the **Window**'s area, regardless if it's c
 
 **mouse_exited** **(** **)**
 
-Emitted when the mouse cursor exits the **Window**'s area (including when it's hovered over another window on top of this one).
+Emitted when the mouse cursor leaves the **Window**'s visible area, that is not occluded behind other :ref:`Control<class_Control>`\ s or windows, provided its :ref:`Viewport.gui_disable_input<class_Viewport_property_gui_disable_input>` is ``false`` and regardless if it's currently focused or not.
 
 .. rst-class:: classref-item-separator
 
@@ -495,9 +509,15 @@ Maximized window mode, i.e. **Window** will occupy whole screen area except task
 
 :ref:`Mode<enum_Window_Mode>` **MODE_FULLSCREEN** = ``3``
 
-Full screen window mode. Note that this is not *exclusive* full screen. On Windows and Linux, a borderless window is used to emulate full screen. On macOS, a new desktop is used to display the running project.
+Full screen mode with full multi-window support.
 
-Regardless of the platform, enabling full screen will change the window size to match the monitor's size. Therefore, make sure your project supports :doc:`multiple resolutions <../tutorials/rendering/multiple_resolutions>` when enabling full screen mode.
+Full screen window covers the entire display area of a screen and has no decorations. The display's video mode is not changed.
+
+\ **On Windows:** Multi-window full-screen mode has a 1px border of the :ref:`ProjectSettings.rendering/environment/defaults/default_clear_color<class_ProjectSettings_property_rendering/environment/defaults/default_clear_color>` color.
+
+\ **On macOS:** A new desktop is used to display the running project.
+
+\ **Note:** Regardless of the platform, enabling full screen will change the window size to match the monitor's size. Therefore, make sure your project supports :doc:`multiple resolutions <../tutorials/rendering/multiple_resolutions>` when enabling full screen mode.
 
 .. _class_Window_constant_MODE_EXCLUSIVE_FULLSCREEN:
 
@@ -505,11 +525,17 @@ Regardless of the platform, enabling full screen will change the window size to 
 
 :ref:`Mode<enum_Window_Mode>` **MODE_EXCLUSIVE_FULLSCREEN** = ``4``
 
-Exclusive full screen window mode. This mode is implemented on Windows only. On other platforms, it is equivalent to :ref:`MODE_FULLSCREEN<class_Window_constant_MODE_FULLSCREEN>`.
+A single window full screen mode. This mode has less overhead, but only one window can be open on a given screen at a time (opening a child window or application switching will trigger a full screen transition).
 
-Only one window in exclusive full screen mode can be visible on a given screen at a time. If multiple windows are in exclusive full screen mode for the same screen, the last one being set to this mode takes precedence.
+Full screen window covers the entire display area of a screen and has no border or decorations. The display's video mode is not changed.
 
-Regardless of the platform, enabling full screen will change the window size to match the monitor's size. Therefore, make sure your project supports :doc:`multiple resolutions <../tutorials/rendering/multiple_resolutions>` when enabling full screen mode.
+\ **On Windows:** Depending on video driver, full screen transition might cause screens to go black for a moment.
+
+\ **On macOS:** A new desktop is used to display the running project. Exclusive full screen mode prevents Dock and Menu from showing up when the mouse pointer is hovering the edge of the screen.
+
+\ **On Linux (X11):** Exclusive full screen mode bypasses compositor.
+
+\ **Note:** Regardless of the platform, enabling full screen will change the window size to match the monitor's size. Therefore, make sure your project supports :doc:`multiple resolutions <../tutorials/rendering/multiple_resolutions>` when enabling full screen mode.
 
 .. rst-class:: classref-item-separator
 
@@ -551,9 +577,9 @@ The window is floating on top of all other windows. This flag is ignored for ful
 
 :ref:`Flags<enum_Window_Flags>` **FLAG_TRANSPARENT** = ``3``
 
-The window background can be transparent.
+The window background can be transparent. Set with :ref:`transparent<class_Window_property_transparent>`.
 
-\ **Note:** This flag has no effect if :ref:`ProjectSettings.display/window/per_pixel_transparency/allowed<class_ProjectSettings_property_display/window/per_pixel_transparency/allowed>` is set to ``false``. Set with :ref:`transparent<class_Window_property_transparent>`.
+\ **Note:** This flag has no effect if either :ref:`ProjectSettings.display/window/per_pixel_transparency/allowed<class_ProjectSettings_property_display/window/per_pixel_transparency/allowed>`, or the window's :ref:`Viewport.transparent_bg<class_Viewport_property_transparent_bg>` is set to ``false``.
 
 .. _class_Window_constant_FLAG_NO_FOCUS:
 
@@ -571,6 +597,8 @@ The window can't be focused. No-focus window will ignore all input, except mouse
 
 Window is part of menu or :ref:`OptionButton<class_OptionButton>` dropdown. This flag can't be changed when the window is visible. An active popup window will exclusively receive all input, without stealing focus from its parent. Popup windows are automatically closed when uses click outside it, or when an application is switched. Popup window must have transient parent set (see :ref:`transient<class_Window_property_transient>`).
 
+\ **Note:** This flag has no effect in embedded windows (unless said window is a :ref:`Popup<class_Popup>`).
+
 .. _class_Window_constant_FLAG_EXTEND_TO_TITLE:
 
 .. rst-class:: classref-enumeration-constant
@@ -579,7 +607,9 @@ Window is part of menu or :ref:`OptionButton<class_OptionButton>` dropdown. This
 
 Window content is expanded to the full size of the window. Unlike borderless window, the frame is left intact and can be used to resize the window, title bar is transparent, but have minimize/maximize/close buttons. Set with :ref:`extend_to_title<class_Window_property_extend_to_title>`.
 
-\ **Note:** This flag is implemented on macOS.
+\ **Note:** This flag is implemented only on macOS.
+
+\ **Note:** This flag has no effect in embedded windows.
 
 .. _class_Window_constant_FLAG_MOUSE_PASSTHROUGH:
 
@@ -588,6 +618,8 @@ Window content is expanded to the full size of the window. Unlike borderless win
 :ref:`Flags<enum_Window_Flags>` **FLAG_MOUSE_PASSTHROUGH** = ``7``
 
 All mouse events are passed to the underlying window of the same application.
+
+\ **Note:** This flag has no effect in embedded windows.
 
 .. _class_Window_constant_FLAG_MAX:
 
@@ -680,6 +712,32 @@ The content can be expanded horizontally. Scaling vertically will result in keep
 :ref:`ContentScaleAspect<enum_Window_ContentScaleAspect>` **CONTENT_SCALE_ASPECT_EXPAND** = ``4``
 
 The content's aspect will be preserved. If the target size has different aspect from the base one, the content will stay in the top-left corner and add an extra visible area in the stretched space.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _enum_Window_ContentScaleStretch:
+
+.. rst-class:: classref-enumeration
+
+enum **ContentScaleStretch**:
+
+.. _class_Window_constant_CONTENT_SCALE_STRETCH_FRACTIONAL:
+
+.. rst-class:: classref-enumeration-constant
+
+:ref:`ContentScaleStretch<enum_Window_ContentScaleStretch>` **CONTENT_SCALE_STRETCH_FRACTIONAL** = ``0``
+
+The content will be stretched according to a fractional factor. This fills all the space available in the window, but allows "pixel wobble" to occur due to uneven pixel scaling.
+
+.. _class_Window_constant_CONTENT_SCALE_STRETCH_INTEGER:
+
+.. rst-class:: classref-enumeration-constant
+
+:ref:`ContentScaleStretch<enum_Window_ContentScaleStretch>` **CONTENT_SCALE_STRETCH_INTEGER** = ``1``
+
+The content will be stretched only according to an integer factor, preserving sharp pixels. This may leave a black background visible on the window's edges depending on the window size.
 
 .. rst-class:: classref-item-separator
 
@@ -942,6 +1000,23 @@ Base size of the content (i.e. nodes that are drawn inside the window). If non-z
 
 ----
 
+.. _class_Window_property_content_scale_stretch:
+
+.. rst-class:: classref-property
+
+:ref:`ContentScaleStretch<enum_Window_ContentScaleStretch>` **content_scale_stretch** = ``0``
+
+.. rst-class:: classref-property-setget
+
+- void **set_content_scale_stretch** **(** :ref:`ContentScaleStretch<enum_Window_ContentScaleStretch>` value **)**
+- :ref:`ContentScaleStretch<enum_Window_ContentScaleStretch>` **get_content_scale_stretch** **(** **)**
+
+The policy to use to determine the final scale factor for 2D elements. This affects how :ref:`content_scale_factor<class_Window_property_content_scale_factor>` is applied, in addition to the automatic scale factor determined by :ref:`content_scale_size<class_Window_property_content_scale_size>`.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_Window_property_current_screen:
 
 .. rst-class:: classref-property
@@ -991,6 +1066,10 @@ Needs :ref:`transient<class_Window_property_transient>` enabled to work.
 
 If ``true``, the **Window** contents is expanded to the full size of the window, window title bar is transparent.
 
+\ **Note:** This property is implemented only on macOS.
+
+\ **Note:** This property only works with native windows.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -1006,9 +1085,24 @@ If ``true``, the **Window** contents is expanded to the full size of the window,
 - void **set_initial_position** **(** :ref:`WindowInitialPosition<enum_Window_WindowInitialPosition>` value **)**
 - :ref:`WindowInitialPosition<enum_Window_WindowInitialPosition>` **get_initial_position** **(** **)**
 
-.. container:: contribute
+Specifies the initial type of position for the **Window**. See :ref:`WindowInitialPosition<enum_Window_WindowInitialPosition>` constants.
 
-	There is currently no description for this property. Please help us by :ref:`contributing one <doc_updating_the_class_reference>`!
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Window_property_keep_title_visible:
+
+.. rst-class:: classref-property
+
+:ref:`bool<class_bool>` **keep_title_visible** = ``false``
+
+.. rst-class:: classref-property-setget
+
+- void **set_keep_title_visible** **(** :ref:`bool<class_bool>` value **)**
+- :ref:`bool<class_bool>` **get_keep_title_visible** **(** **)**
+
+If ``true``, the **Window** width is expanded to keep the title bar text fully visible.
 
 .. rst-class:: classref-item-separator
 
@@ -1067,6 +1161,8 @@ Set's the window's current mode.
 
 \ **Note:** Fullscreen mode is not exclusive full screen on Windows and Linux.
 
+\ **Note:** This method only works with native windows, i.e. the main window and **Window**-derived nodes when :ref:`Viewport.gui_embed_subwindows<class_Viewport_property_gui_embed_subwindows>` is disabled in the main viewport.
+
 .. rst-class:: classref-item-separator
 
 ----
@@ -1085,6 +1181,8 @@ Set's the window's current mode.
 If ``true``, all mouse events will be passed to the underlying window of the same application. See also :ref:`mouse_passthrough_polygon<class_Window_property_mouse_passthrough_polygon>`.
 
 \ **Note:** This property is implemented on Linux (X11), macOS and Windows.
+
+\ **Note:** This property only works with native windows.
 
 .. rst-class:: classref-item-separator
 
@@ -1172,7 +1270,9 @@ If ``true``, the **Window** will be considered a popup. Popups are sub-windows t
 
 The window's position in pixels.
 
-If :ref:`ProjectSettings.display/window/subwindows/embed_subwindows<class_ProjectSettings_property_display/window/subwindows/embed_subwindows>` is ``false``, the position is in absolute screen coordinates. This typically applies to editor plugins. If the setting is ``false``, the window's position is in the coordinates of its parent :ref:`Viewport<class_Viewport>`.
+If :ref:`ProjectSettings.display/window/subwindows/embed_subwindows<class_ProjectSettings_property_display/window/subwindows/embed_subwindows>` is ``false``, the position is in absolute screen coordinates. This typically applies to editor plugins. If the setting is ``true``, the window's position is in the coordinates of its parent :ref:`Viewport<class_Viewport>`.
+
+\ **Note:** This property only works if :ref:`initial_position<class_Window_property_initial_position>` is set to :ref:`WINDOW_INITIAL_POSITION_ABSOLUTE<class_Window_constant_WINDOW_INITIAL_POSITION_ABSOLUTE>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1242,7 +1342,7 @@ The name of a theme type variation used by this **Window** to look up its own th
 - void **set_title** **(** :ref:`String<class_String>` value **)**
 - :ref:`String<class_String>` **get_title** **(** **)**
 
-The window's title. If the **Window** is non-embedded, title styles set in :ref:`Theme<class_Theme>` will have no effect.
+The window's title. If the **Window** is native, title styles set in :ref:`Theme<class_Theme>` will have no effect.
 
 .. rst-class:: classref-item-separator
 
@@ -1267,6 +1367,23 @@ Note that behavior might be different depending on the platform.
 
 ----
 
+.. _class_Window_property_transient_to_focused:
+
+.. rst-class:: classref-property
+
+:ref:`bool<class_bool>` **transient_to_focused** = ``false``
+
+.. rst-class:: classref-property-setget
+
+- void **set_transient_to_focused** **(** :ref:`bool<class_bool>` value **)**
+- :ref:`bool<class_bool>` **is_transient_to_focused** **(** **)**
+
+If ``true``, and the **Window** is :ref:`transient<class_Window_property_transient>`, this window will (at the time of becoming visible) become transient to the currently focused window instead of the immediate parent window in the hierarchy. Note that the transient parent is assigned at the time this window becomes visible, so changing it afterwards has no effect until re-shown.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_Window_property_transparent:
 
 .. rst-class:: classref-property
@@ -1280,9 +1397,9 @@ Note that behavior might be different depending on the platform.
 
 If ``true``, the **Window**'s background can be transparent. This is best used with embedded windows.
 
-\ **Note:** For native windows, this flag has no effect if :ref:`ProjectSettings.display/window/per_pixel_transparency/allowed<class_ProjectSettings_property_display/window/per_pixel_transparency/allowed>` is set to ``false``.
-
 \ **Note:** Transparency support is implemented on Linux, macOS and Windows, but availability might vary depending on GPU driver, display manager, and compositor capabilities.
+
+\ **Note:** This property has no effect if :ref:`ProjectSettings.display/window/per_pixel_transparency/allowed<class_ProjectSettings_property_display/window/per_pixel_transparency/allowed>` is set to ``false``.
 
 .. rst-class:: classref-item-separator
 
@@ -1362,6 +1479,18 @@ If ``false``, you need to call :ref:`child_controls_changed<class_Window_method_
 
 Method Descriptions
 -------------------
+
+.. _class_Window_private_method__get_contents_minimum_size:
+
+.. rst-class:: classref-method
+
+:ref:`Vector2<class_Vector2>` **_get_contents_minimum_size** **(** **)** |virtual| |const|
+
+Virtual method to be implemented by the user. Overrides the value returned by :ref:`get_contents_minimum_size<class_Window_method_get_contents_minimum_size>`.
+
+.. rst-class:: classref-item-separator
+
+----
 
 .. _class_Window_method_add_theme_color_override:
 
@@ -1502,6 +1631,8 @@ Ends a bulk theme override update. See :ref:`begin_bulk_theme_override<class_Win
 :ref:`Vector2<class_Vector2>` **get_contents_minimum_size** **(** **)** |const|
 
 Returns the combined minimum size from the child :ref:`Control<class_Control>` nodes of the window. Use :ref:`child_controls_changed<class_Window_method_child_controls_changed>` to update it when children nodes have changed.
+
+The value returned by this method can be overridden with :ref:`_get_contents_minimum_size<class_Window_private_method__get_contents_minimum_size>`.
 
 .. rst-class:: classref-item-separator
 
@@ -1676,6 +1807,18 @@ See :ref:`Control.get_theme_color<class_Control_method_get_theme_color>` for det
 Returns a :ref:`StyleBox<class_StyleBox>` from the first matching :ref:`Theme<class_Theme>` in the tree if that :ref:`Theme<class_Theme>` has a stylebox item with the specified ``name`` and ``theme_type``.
 
 See :ref:`Control.get_theme_color<class_Control_method_get_theme_color>` for details.
+
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Window_method_get_window_id:
+
+.. rst-class:: classref-method
+
+:ref:`int<class_int>` **get_window_id** **(** **)** |const|
+
+Returns the ID of the window.
 
 .. rst-class:: classref-item-separator
 
@@ -1933,11 +2076,25 @@ Returns ``true`` if font oversampling is enabled. See :ref:`set_use_font_oversam
 
 ----
 
+.. _class_Window_method_move_to_center:
+
+.. rst-class:: classref-method
+
+void **move_to_center** **(** **)**
+
+Centers a native window on the current screen and an embedded window on its embedder :ref:`Viewport<class_Viewport>`.
+
+.. rst-class:: classref-item-separator
+
+----
+
 .. _class_Window_method_move_to_foreground:
 
 .. rst-class:: classref-method
 
 void **move_to_foreground** **(** **)**
+
+**Deprecated:** Use :ref:`grab_focus<class_Window_method_grab_focus>` instead.
 
 Moves the **Window** on top of other windows and focuses it.
 
@@ -1991,7 +2148,9 @@ Popups the **Window** centered inside its parent **Window**. ``fallback_ratio`` 
 
 void **popup_centered_ratio** **(** :ref:`float<class_float>` ratio=0.8 **)**
 
-Popups the **Window** centered inside its parent **Window** and sets its size as a ``ratio`` of parent's size.
+If **Window** is embedded, popups the **Window** centered inside its embedder and sets its size as a ``ratio`` of embedder's size.
+
+If **Window** is a native window, popups the **Window** centered inside the screen of its parent **Window** and sets its size as a ``ratio`` of the screen size.
 
 .. rst-class:: classref-item-separator
 
@@ -2408,9 +2567,22 @@ The background style used when the **Window** is embedded. Note that this is dra
 
 \ **Note:** The content background will not be visible unless :ref:`transparent<class_Window_property_transparent>` is enabled.
 
+.. rst-class:: classref-item-separator
+
+----
+
+.. _class_Window_theme_style_embedded_unfocused_border:
+
+.. rst-class:: classref-themeproperty
+
+:ref:`StyleBox<class_StyleBox>` **embedded_unfocused_border**
+
+The background style used when the **Window** is embedded and unfocused.
+
 .. |virtual| replace:: :abbr:`virtual (This method should typically be overridden by the user to have any effect.)`
 .. |const| replace:: :abbr:`const (This method has no side effects. It doesn't modify any of the instance's member variables.)`
 .. |vararg| replace:: :abbr:`vararg (This method accepts any number of arguments after the ones described here.)`
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
