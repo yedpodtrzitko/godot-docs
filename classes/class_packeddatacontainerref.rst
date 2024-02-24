@@ -12,7 +12,7 @@ PackedDataContainerRef
 
 **Inherits:** :ref:`RefCounted<class_RefCounted>` **<** :ref:`Object<class_Object>`
 
-Internal class used by :ref:`PackedDataContainer<class_PackedDataContainer>`.
+An internal class used by :ref:`PackedDataContainer<class_PackedDataContainer>` to pack nested arrays and dictionaries.
 
 .. rst-class:: classref-introduction-group
 
@@ -51,9 +51,9 @@ Methods
 .. table::
    :widths: auto
 
-   +-----------------------+---------------------------------------------------------------------------+
-   | :ref:`int<class_int>` | :ref:`size<class_PackedDataContainerRef_method_size>` **(** **)** |const| |
-   +-----------------------+---------------------------------------------------------------------------+
+   +-----------------------+---------------------------------------------------------------------+
+   | :ref:`int<class_int>` | :ref:`size<class_PackedDataContainerRef_method_size>`\ (\ ) |const| |
+   +-----------------------+---------------------------------------------------------------------+
 
 .. rst-class:: classref-section-separator
 
@@ -68,7 +68,7 @@ Method Descriptions
 
 .. rst-class:: classref-method
 
-:ref:`int<class_int>` **size** **(** **)** |const|
+:ref:`int<class_int>` **size**\ (\ ) |const|
 
 Returns the size of the packed container (see :ref:`Array.size<class_Array_method_size>` and :ref:`Dictionary.size<class_Dictionary_method_size>`).
 
@@ -78,3 +78,5 @@ Returns the size of the packed container (see :ref:`Array.size<class_Array_metho
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
+.. |void| replace:: :abbr:`void (No return value.)`
