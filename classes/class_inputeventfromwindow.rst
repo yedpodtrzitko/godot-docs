@@ -14,7 +14,7 @@ InputEventFromWindow
 
 **Inherited By:** :ref:`InputEventScreenDrag<class_InputEventScreenDrag>`, :ref:`InputEventScreenTouch<class_InputEventScreenTouch>`, :ref:`InputEventWithModifiers<class_InputEventWithModifiers>`
 
-Base class for :ref:`Viewport<class_Viewport>`-based input events.
+Abstract base class for :ref:`Viewport<class_Viewport>`-based input events.
 
 .. rst-class:: classref-introduction-group
 
@@ -48,12 +48,12 @@ Property Descriptions
 
 .. rst-class:: classref-property
 
-:ref:`int<class_int>` **window_id** = ``0``
+:ref:`int<class_int>` **window_id** = ``0`` :ref:`🔗<class_InputEventFromWindow_property_window_id>`
 
 .. rst-class:: classref-property-setget
 
-- void **set_window_id** **(** :ref:`int<class_int>` value **)**
-- :ref:`int<class_int>` **get_window_id** **(** **)**
+- |void| **set_window_id**\ (\ value\: :ref:`int<class_int>`\ )
+- :ref:`int<class_int>` **get_window_id**\ (\ )
 
 The ID of a :ref:`Window<class_Window>` that received this event.
 
@@ -63,3 +63,5 @@ The ID of a :ref:`Window<class_Window>` that received this event.
 .. |constructor| replace:: :abbr:`constructor (This method is used to construct a type.)`
 .. |static| replace:: :abbr:`static (This method doesn't need an instance to be called, so it can be called directly using the class name.)`
 .. |operator| replace:: :abbr:`operator (This method describes a valid operator to use with this type as left-hand operand.)`
+.. |bitfield| replace:: :abbr:`BitField (This value is an integer composed as a bitmask of the following flags.)`
+.. |void| replace:: :abbr:`void (No return value.)`
